@@ -38,9 +38,30 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $token;
+
+    /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified = false;
+    private $isVerified;
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token): void
+    {
+        $this->token = $token;
+    }
+
 
     /**
      * User constructor.
@@ -130,15 +151,21 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function isVerified(): bool
+    /**
+     * @return mixed
+     */
+    public function getIsVerified()
     {
         return $this->isVerified;
     }
 
-    public function setIsVerified(bool $isVerified): self
+    /**
+     * @param mixed $isVerified
+     */
+    public function setIsVerified($isVerified): void
     {
         $this->isVerified = $isVerified;
-
-        return $this;
     }
+
+
 }

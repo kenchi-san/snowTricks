@@ -1,0 +1,24 @@
+body {
+    height: 100%;
+}
+
+.card-deck{
+    margin-top: 5rem;
+    margin-right: 5rem;
+    margin-left: 5rem;
+}
+footer {
+    background-color: #eee;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 50px 25px 25px;
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+.list {
+    margin-top: 15px;
+}
