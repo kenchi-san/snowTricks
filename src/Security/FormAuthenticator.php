@@ -19,7 +19,7 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
+class FormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
 
@@ -47,15 +47,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'email' => $request->request->get('email'),
+            'email'=>$request->request->get('email'),
+            'userName' => $request->request->get('userName'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_token'),
         ];
+
         $request->getSession()->set(
             Security::LAST_USERNAME,
-            $credentials['email']
+            $credentials['userName']
         );
-
         return $credentials;
     }
 
@@ -66,11 +67,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException("CSRF");
         }
 
-        $user = $this->userRepository->findOneBy(['email' => $credentials['email']]);
+        $user = $this->userRepository->findOneBy(['userName' => $credentials['userName']]);
 
         if (!$user) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            throw new CustomUserMessageAuthenticationException('utilisateur non trouvé');
         }
 
         if(!$user->getIsVerified()){
@@ -93,6 +93,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     * @param $credentials
+     * @return string|null
      */
     public function getPassword($credentials): ?string
     {
@@ -105,7 +107,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-        return new RedirectResponse($this->urlGenerator->generate('homePage'));    }
+        return new RedirectResponse($this->urlGenerator->generate('app_homePage'));    }
 
     protected function getLoginUrl()
     {

@@ -8,19 +8,16 @@
     {% endif %}
     <div class="container h-100">
             <div class="col align-self-center">
-                {# <div class="col-sm-12 col-md-6 col-lg-6"> #}
                 {{ form_start(form) }}
-                {{ form_row(form.email) }}
-                {{ form_row(form.password) }}
-                {{ form_row(form._remember_me) }}
-                <input type="submit" value="Envoyer ">
+                {{ form_row(form.userName, {label: 'nom d\'utilisateur'}) }}
+                {{ form_row(form.password, {label: 'mot de passe'}) }}
+                {{ form_row(form._remember_me, {label: 'ce souvenir de moi'}) }}
+                <input type="submit" value="créer votre compte ">
+                <br>
+                <a class="underlineHover" href="{{ path('app_reset_password') }}">Mot de passe oublié ?</a>
+
                 {{ form_end(form) }}
             </div>
         </div>
-
-
-
-
-    {# </div> #}
 
 {% endblock %}

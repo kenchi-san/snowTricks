@@ -6,11 +6,14 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"userName"},message="Nom d'utilisateur déjà utilisé")
+ *
  */
 class User implements UserInterface
 {
@@ -23,6 +26,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(
+     *     message= "le mail {{ value }} n'est pas valide.")
      */
     private $email;
 
@@ -38,7 +43,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",length=255,nullable=true,options={"default":"null"})
      */
     private $token;
 
@@ -46,8 +51,15 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $userName;
+
     /**
      * @return mixed
+     *
      */
     public function getToken()
     {
@@ -165,6 +177,13 @@ class User implements UserInterface
     public function setIsVerified($isVerified): void
     {
         $this->isVerified = $isVerified;
+    }
+
+    public function setUserName(string $userName): self
+    {
+        $this->userName = $userName;
+
+        return $this;
     }
 
 

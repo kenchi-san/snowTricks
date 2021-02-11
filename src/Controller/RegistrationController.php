@@ -9,6 +9,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,13 +19,14 @@ class RegistrationController extends AbstractController
 {
 
 
+
     /**
      * @Route("/register", name="app_register")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param MailerInterface $mailer
      * @return Response
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, MailerInterface $mailer): Response
     {
@@ -55,10 +57,10 @@ class RegistrationController extends AbstractController
                 ->context(['token' => $user->getToken()]);
             $mailer->send($email);
             $this->addFlash(
-                'notice',
+                'success',
                 'Un mail de confirmation a été envoyé'
             );
-            return $this->redirectToRoute("app_login");
+            return $this->redirectToRoute("app_homePage");
 
         }
 
@@ -89,8 +91,8 @@ class RegistrationController extends AbstractController
         return $this->redirectToRoute('app_login');
 
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-
-//        return $this->redirectToRoute('homePage');
     }
+
+
+
 }
