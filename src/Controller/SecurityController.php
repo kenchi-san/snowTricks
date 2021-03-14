@@ -108,7 +108,7 @@ class SecurityController extends AbstractController
         $user = $entityManager->getRepository(User::class)->findOneBy(['token' => $request->get('token')]);
 
         if (!$user) {
-            throw $this->createNotFoundException('Utilisateur non trouvé');
+            $this->addFlash('danger','Utilisateur non trouvé');
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword( $passwordEncoder->encodePassword($user,$form->get('password')->getData()));
