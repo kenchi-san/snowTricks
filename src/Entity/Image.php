@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Image
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -27,6 +28,7 @@ class Image
      * @ORM\JoinColumn(nullable=false)
      */
     private $figure;
+
 
     public function getId(): ?int
     {
@@ -56,4 +58,5 @@ class Image
 
         return $this;
     }
+
 }

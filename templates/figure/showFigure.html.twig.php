@@ -3,7 +3,7 @@
 {% block title %}Hello FigureController!{% endblock %}
 
 {% block body %}
-{{% for %}}
+
 {{ form_start(form) }}
 {{ form_row(form) }}
 <input class="btn btn-primary" type="submit" value="Valider">
