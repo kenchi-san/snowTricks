@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FigureController!{% endblock %}
+
+{% block body %}
+<h1>{{ figure.name }}</h1>
+    <p>
+        <img src="{{ asset('/../uploads/figures/'~images.name) }}" alt="{{ images.name }}">
+    </p>
+    <p>
+        {{ figure.content }}
+    </p>
+{% endblock %}

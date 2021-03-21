@@ -5,19 +5,31 @@
     {% block javascripts %}{% endblock %}
 
 {% block body %}
-    <body>
-    <div class="card-deck">
-{% for figure in figures %}
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{ figure.name }}</h5>
-                <p class="card-text">{{ figure.content }}</p>
-                <p>{{ figure.category.name }}</p>
-            </div>
+<body>
+<div class="card-deck">
+    {% for figure in figures %}
+    <div class="card img_home_page">
+{#         {% for image  in images  %}#}
+
+        {% if images['0'].figure.id == figure.id %}
+
+        <a href="{{ path('app_show',{ id:figure.id}) }}">
+            <img
+                    src=" {{ asset('../uploads/figures/'~images['0'].name) }}" class="card-img-top"
+                    alt="{{ images['0'].name }}">
+        </a>
+
+        {% endif %}
+{#        {% endfor %}#}
+        <div class="card-body">
+            <h5 class="card-title">{{ figure.name }}</h5>
+            <p class="card-text">{{ figure.content }}</p>
+            <p>{{ figure.category.name }}</p>
         </div>
-{% endfor %}
+
     </div>
-    </body>
+    {% endfor %}
+</div>
+</body>
 {% endblock %}
 

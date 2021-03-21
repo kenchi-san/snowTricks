@@ -19,8 +19,7 @@ class FigureType extends AbstractType
             ->add('name')
             ->add('content')
             ->add('category',EntityType::class,
-                ['class'=>Category::class,
-                    'choice_label'=>'name'])
+                ['class'=>Category::class])
             ->add('files',FileType::class,['label' => false,
                 'multiple' => true,
                 'mapped' => false,

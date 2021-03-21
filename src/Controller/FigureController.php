@@ -6,17 +6,17 @@ use App\Entity\Figure;
 use App\Entity\Image;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
+use App\Repository\ImageRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Instanceof_;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
-
-//use Doctrine\ORM\Mapping\Entity;
 
 class FigureController extends AbstractController
 {
@@ -59,14 +59,45 @@ class FigureController extends AbstractController
 
     /**
      * @Route( "/", name="app_homePage")
-     * @param FigureRepository $repository
+     * @param FigureRepository $figureRepository
+     * @param ImageRepository $imageRepository
      * @return Response
      */
-    public function listFigure(FigureRepository $repository): Response
+    public function list(FigureRepository $figureRepository, ImageRepository $imageRepository): Response
     {
-        $figures = $repository->findAll();
+        $figures = $figureRepository->findAll();
+        $images = $imageRepository->findAll();
 
-        return $this->render('pages/homePage.html.twig', ['figures' => $figures]);
+        return $this->render('pages/homePage.html.twig', [ 'figures'=>$figures,'images'=>$images]);
+    }
+
+    /**
+     * @Route("/show/figure/{id}",name="app_show")
+     * @param Figure $figure
+     * @param ImageRepository $image
+     * @return Response
+     */
+    public function show(Figure $figure, ImageRepository $image): Response
+    {
+
+        $image = $image->findOneBy(array('figure' => $figure->getId()));
+
+
+        return $this->render("figure/showFigure.html.twig", ['figure' => $figure, 'images' => $image]);
+
+    }
+
+    /**
+     * @Route("/deleted/figure/{id}",name="app_deleted")
+     * @param Figure $figure
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse
+     */
+    public function deleted(Figure $figure, EntityManagerInterface $manager): RedirectResponse
+    {
+        $manager->remove($figure);
+        $manager->flush();
+        return $this->redirectToRoute("app_homePage");
     }
 
 
