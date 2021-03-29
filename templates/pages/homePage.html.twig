@@ -5,31 +5,25 @@
     {% block javascripts %}{% endblock %}
 
 {% block body %}
-<body>
-<div class="card-deck">
+<div class="row row-cols-2 row-cols-md-5">
     {% for figure in figures %}
-    <div class="card img_home_page">
-{#         {% for image  in images  %}#}
-
-        {% if images['0'].figure.id == figure.id %}
-
-        <a href="{{ path('app_show',{ id:figure.id}) }}">
-            <img
-                    src=" {{ asset('../uploads/figures/'~images['0'].name) }}" class="card-img-top"
-                    alt="{{ images['0'].name }}">
-        </a>
-
-        {% endif %}
-{#        {% endfor %}#}
-        <div class="card-body">
-            <h5 class="card-title">{{ figure.name }}</h5>
-            <p class="card-text">{{ figure.content }}</p>
-            <p>{{ figure.category.name }}</p>
+        <div class="col mb-4">
+            <div class="card img_home_page">
+                <a href="{{ path('app_show',{ id:figure.id}) }}">
+                    {% if figure.images.first %}
+                        <img
+                                src=" {{ asset('uploads/figures/'~figure.images.first.name) }}" class="card-img-top"
+                                alt="{{ figure.images.first.name }}">
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ figure.name }}</h5>
+                    <p class="card-text">{{ figure.content }}</p>
+                    <p>{{ figure.category.name }}</p>
+                </div>
+            </div>
         </div>
-
-    </div>
     {% endfor %}
 </div>
-</body>
 {% endblock %}
 

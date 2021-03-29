@@ -5,7 +5,7 @@
 {% block body %}
 <h1>{{ figure.name }}</h1>
     <p>
-        <img src="{{ asset('/../uploads/figures/'~images.name) }}" alt="{{ images.name }}">
+        <img src="{{ asset('uploads/figures/'~figure.images.first.name) }}" alt="{{ figure.images.first.name }}">
     </p>
     <p>
         {{ figure.content }}

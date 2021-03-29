@@ -60,31 +60,23 @@ class FigureController extends AbstractController
     /**
      * @Route( "/", name="app_homePage")
      * @param FigureRepository $figureRepository
-     * @param ImageRepository $imageRepository
      * @return Response
      */
-    public function list(FigureRepository $figureRepository, ImageRepository $imageRepository): Response
+    public function list(FigureRepository $figureRepository): Response
     {
         $figures = $figureRepository->findAll();
-        $images = $imageRepository->findAll();
 
-        return $this->render('pages/homePage.html.twig', [ 'figures'=>$figures,'images'=>$images]);
+        return $this->render('pages/homePage.html.twig', ['figures' => $figures]);
     }
 
     /**
      * @Route("/show/figure/{id}",name="app_show")
      * @param Figure $figure
-     * @param ImageRepository $image
      * @return Response
      */
-    public function show(Figure $figure, ImageRepository $image): Response
+    public function show(Figure $figure): Response
     {
-
-        $image = $image->findOneBy(array('figure' => $figure->getId()));
-
-
-        return $this->render("figure/showFigure.html.twig", ['figure' => $figure, 'images' => $image]);
-
+        return $this->render("figure/showFigure.html.twig", ['figure' => $figure]);
     }
 
     /**
@@ -100,5 +92,25 @@ class FigureController extends AbstractController
         return $this->redirectToRoute("app_homePage");
     }
 
-
+    /**
+     * @Route("/edit/figure/{id}")
+     * @param Figure $figure
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function edit( Figure $figure,EntityManagerInterface $manager,Request $request)
+    {
+        if (!$this->getUser()) {
+            $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
+            return $this->redirectToRoute('app_homePage');
+        }
+        $form = $this->createForm(FigureType::class,$figure);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()  ) {
+            $manager->persist($figure);
+            $manager->flush();
+        }
+        return $this->render('figure/editFigure.html.twig', ['form' => $form->createView()]);
+    }
 }
