@@ -5,10 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\LoginFormType;
 use App\Form\NewPasswordType;
-use App\Form\RegistrationFormType;
 use App\Form\ResetPasswordType;
-use App\Repository\UserRepository;
-use App\Security\FormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,12 +23,14 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="app_login")
      * @param AuthenticationUtils $authenticationUtils
-     * @param Request $request
      * @return Response
      */
-    public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
-
+if ($this->getUser()){
+    $this->addFlash('warning', 'Vous êtes déjà connecté');
+   return $this->redirectToRoute('app_homePage');
+}
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
