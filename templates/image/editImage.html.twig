@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edition de l'image{% endblock %}
+
+{% block body %}
+    <img src="{{ asset('uploads/figures/'~image.name) }}" alt="{{ image.name }}">
+    {{ form_start(form) }}
+    {{ form_row(form) }}
+    <input class="btn btn-primary" type="submit" value="Valider">
+
+    {{ form_end(form) }}
+{% endblock %}
+
+
+

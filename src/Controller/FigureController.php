@@ -4,14 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Entity\Image;
+use App\Entity\Video;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
 use App\Repository\ImageRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Expr\Instanceof_;
+use phpDocumentor\Reflection\Type;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,9 +46,13 @@ class FigureController extends AbstractController
                 $image = new Image();
                 $image->setName($fileUploader->upload($file));
                 $figure->addImage($image);
+
             }
+
             $manager->persist($figure);
             $manager->flush();
+            $this->addFlash('success', 'la figure à bien été ajouté');
+
             return $this->redirectToRoute('app_homePage');
         }
         return $this->render('figure/addFigure.html.twig', [
@@ -76,6 +80,7 @@ class FigureController extends AbstractController
      */
     public function show(Figure $figure): Response
     {
+
         return $this->render("figure/showFigure.html.twig", ['figure' => $figure]);
     }
 
@@ -89,6 +94,7 @@ class FigureController extends AbstractController
     {
         $manager->remove($figure);
         $manager->flush();
+        $this->addFlash('success', 'la figure à bien été supprimé');
         return $this->redirectToRoute("app_homePage");
     }
 
@@ -97,19 +103,28 @@ class FigureController extends AbstractController
      * @param Figure $figure
      * @param EntityManagerInterface $manager
      * @param Request $request
+     * @param FileUploader $fileUploader
      * @return RedirectResponse|Response
      */
-    public function edit( Figure $figure,EntityManagerInterface $manager,Request $request)
+    public function edit(Figure $figure, EntityManagerInterface $manager, Request $request, FileUploader $fileUploader)
     {
         if (!$this->getUser()) {
             $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
             return $this->redirectToRoute('app_homePage');
         }
-        $form = $this->createForm(FigureType::class,$figure);
+        $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()  ) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $files = $form->get('files')->getData();
+            foreach ($files as $file) {
+                $image = new Image();
+                $image->setName($fileUploader->upload($file));
+                $figure->addImage($image);
+            }
             $manager->persist($figure);
             $manager->flush();
+            $this->addFlash('success', 'la figure à bien été édité');
+            return $this->redirectToRoute('app_homePage');
         }
         return $this->render('figure/editFigure.html.twig', ['form' => $form->createView()]);
     }

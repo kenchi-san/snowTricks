@@ -4,9 +4,11 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Figure;
-use App\Entity\Image;
+use App\Entity\Video;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,6 +26,8 @@ class FigureType extends AbstractType
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false])
+            ->add('videos',CollectionType::class,
+                ['entry_type'=>VideoType::class])
         ;
     }
 

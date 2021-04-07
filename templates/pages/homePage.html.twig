@@ -11,12 +11,17 @@
             <div class="card img_home_page">
                 <a href="{{ path('app_show',{ id:figure.id}) }}">
                     {% if figure.images.first %}
-                        <img
-                                src=" {{ asset('uploads/figures/'~figure.images.first.name) }}" class="card-img-top"
+                        <img src=" {{ asset('uploads/figures/'~figure.images.first.name) }}" class="card-img-top"
                                 alt="{{ figure.images.first.name }}">
                     {% endif %}
                 </a>
                 <div class="card-body">
+                    {% if app.user %}
+                        <a href="{{ path('app_figure_edit', {'id': figure.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="{{ path('app_deleted', {'id': figure.id}) }}"><i class="fas fa-trash"></i></a>
+
+                    {% endif %}
+
                     <h5 class="card-title">{{ figure.name }}</h5>
                     <p class="card-text">{{ figure.content }}</p>
                     <p>{{ figure.category.name }}</p>
