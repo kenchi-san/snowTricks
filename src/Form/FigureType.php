@@ -27,8 +27,9 @@ class FigureType extends AbstractType
                 'mapped' => false,
                 'required' => false])
             ->add('videos',CollectionType::class,
-                ['entry_type'=>VideoType::class])
-        ;
+                ['entry_type'=>VideoType::class,
+
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
