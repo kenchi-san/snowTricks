@@ -33,6 +33,20 @@ class FileUploader
         return $fileName;
     }
 
+    /**
+     * @param $images
+     */
+    public function remove(array $images)
+    {
+
+
+        if (file_exists($this->getTargetDirectory().'/'.$images['0'])) {
+            foreach ($images as $image) {
+                unlink($this->getTargetDirectory().'/'.$image);
+            }
+        }
+    }
+
     public function getTargetDirectory()
     {
         return $this->targetDirectory;

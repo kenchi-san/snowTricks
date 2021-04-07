@@ -88,12 +88,14 @@ class FigureController extends AbstractController
      * @Route("/deleted/figure/{id}",name="app_deleted")
      * @param Figure $figure
      * @param EntityManagerInterface $manager
+     * @param FileUploader $fileUploader
      * @return RedirectResponse
      */
-    public function deleted(Figure $figure, EntityManagerInterface $manager): RedirectResponse
+    public function deleted(Figure $figure, EntityManagerInterface $manager,FileUploader $fileUploader): RedirectResponse
     {
         $manager->remove($figure);
         $manager->flush();
+        $fileUploader->remove($figure->getImages()->getValues());
         $this->addFlash('success', 'la figure à bien été supprimé');
         return $this->redirectToRoute("app_homePage");
     }
