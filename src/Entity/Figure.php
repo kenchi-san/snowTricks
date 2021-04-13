@@ -143,7 +143,6 @@ class Figure
     }
 
 
-
     public function getCategory(): ?Category
     {
         return $this->category;

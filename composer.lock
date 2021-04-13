@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9b50030acd781a9efcd08f7c6d147b9",
+    "content-hash": "9227ffed2e0bcaeefcd30829d878a2b2",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2013,7 +2013,7 @@
         },
         {
             "name": "symfony/asset",
-            "version": "v5.2.3",
+            "version": "v5.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/asset.git",
@@ -5680,16 +5680,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.2.3",
+            "version": "v5.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "72ca213014a92223a5d18651ce79ef441c12b694"
+                "reference": "89412a68ea2e675b4e44f260a5666729f77f668e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/72ca213014a92223a5d18651ce79ef441c12b694",
-                "reference": "72ca213014a92223a5d18651ce79ef441c12b694",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/89412a68ea2e675b4e44f260a5666729f77f668e",
+                "reference": "89412a68ea2e675b4e44f260a5666729f77f668e",
                 "shasum": ""
             },
             "require": {
@@ -5747,7 +5747,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2021-01-27T10:15:41+00:00"
+            "time": "2021-03-28T09:42:18+00:00"
         },
         {
             "name": "symfony/var-exporter",

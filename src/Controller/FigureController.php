@@ -7,11 +7,9 @@ use App\Entity\Image;
 use App\Entity\Video;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
-use App\Repository\ImageRepository;
 use App\Service\FileUploader;
+use App\Service\VideoFormat;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Type;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,9 +25,9 @@ class FigureController extends AbstractController
      * @param EntityManagerInterface $manager
      * @param Request $request
      * @param FileUploader $fileUploader
-     * @return Response
+     * @return array|Response
      */
-    public function add(EntityManagerInterface $manager, Request $request, FileUploader $fileUploader): Response
+    public function add(EntityManagerInterface $manager, Request $request, FileUploader $fileUploader, VideoFormat $format)
     {
         if (!$this->getUser()) {
             $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
@@ -46,18 +44,24 @@ class FigureController extends AbstractController
                 $image = new Image();
                 $image->setName($fileUploader->upload($file));
                 $figure->addImage($image);
-
             }
-
+//TODO gerer les liens (tableau problèmes
+            $videos = new Video();
+            foreach ($form->getData()->getVideos() as $link) {
+                $new_links = $format->extractUrl($link);
+                $videos->setLink($new_links->getLink());
+                $new_links->setFigure($figure);
+            }
+dump($figure);
+            dd();
             $manager->persist($figure);
+
             $manager->flush();
             $this->addFlash('success', 'la figure à bien été ajouté');
 
             return $this->redirectToRoute('app_homePage');
         }
-        return $this->render('figure/addFigure.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render('figure/addFigure.html.twig', ['form' => $form->createView(),]);
 
     }
 
@@ -66,7 +70,8 @@ class FigureController extends AbstractController
      * @param FigureRepository $figureRepository
      * @return Response
      */
-    public function list(FigureRepository $figureRepository): Response
+    public
+    function list(FigureRepository $figureRepository): Response
     {
         $figures = $figureRepository->findAll();
 
@@ -91,7 +96,7 @@ class FigureController extends AbstractController
      * @param FileUploader $fileUploader
      * @return RedirectResponse
      */
-    public function deleted(Figure $figure, EntityManagerInterface $manager,FileUploader $fileUploader): RedirectResponse
+    public function deleted(Figure $figure, EntityManagerInterface $manager, FileUploader $fileUploader): RedirectResponse
     {
         $manager->remove($figure);
         $manager->flush();
@@ -114,9 +119,11 @@ class FigureController extends AbstractController
             $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
             return $this->redirectToRoute('app_homePage');
         }
+        //TODO gerer la suppréssion de l'encienne image
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             $files = $form->get('files')->getData();
             foreach ($files as $file) {
                 $image = new Image();

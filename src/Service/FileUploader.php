@@ -3,6 +3,7 @@
 
 namespace App\Service;
 
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -38,10 +39,11 @@ class FileUploader
      */
     public function remove(array $images)
     {
-            foreach ($images as $image) {
-                if (file_exists($this->getTargetDirectory().'/'.$image)) {
-                unlink($this->getTargetDirectory().'/'.$image);
+        foreach ($images as $image) {
+            if (file_exists($this->getTargetDirectory() . '/' . $image)) {
+                unlink($this->getTargetDirectory() . '/' . $image);
             }
+
         }
     }
 
