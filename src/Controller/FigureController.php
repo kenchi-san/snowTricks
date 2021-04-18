@@ -45,15 +45,15 @@ class FigureController extends AbstractController
                 $image->setName($fileUploader->upload($file));
                 $figure->addImage($image);
             }
-//TODO gerer les liens (tableau problèmes
             $videos = new Video();
             foreach ($form->getData()->getVideos() as $link) {
                 $new_links = $format->extractUrl($link);
                 $videos->setLink($new_links->getLink());
                 $new_links->setFigure($figure);
+
+
             }
-dump($figure);
-            dd();
+
             $manager->persist($figure);
 
             $manager->flush();
@@ -79,7 +79,7 @@ dump($figure);
     }
 
     /**
-     * @Route("/show/figure/{id}",name="app_show")
+     * @Route("/show/figure/{id}",name="app_show_figure")
      * @param Figure $figure
      * @return Response
      */
@@ -90,7 +90,7 @@ dump($figure);
     }
 
     /**
-     * @Route("/deleted/figure/{id}",name="app_deleted")
+     * @Route("/deleted/figure/{id}",name="app_deleted_figure")
      * @param Figure $figure
      * @param EntityManagerInterface $manager
      * @param FileUploader $fileUploader
@@ -106,7 +106,7 @@ dump($figure);
     }
 
     /**
-     * @Route("/edit/figure/{id}")
+     * @Route("/edit/figure/{id}",name="app_edit_figure")
      * @param Figure $figure
      * @param EntityManagerInterface $manager
      * @param Request $request
@@ -119,7 +119,6 @@ dump($figure);
             $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
             return $this->redirectToRoute('app_homePage');
         }
-        //TODO gerer la suppréssion de l'encienne image
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

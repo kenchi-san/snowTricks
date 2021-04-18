@@ -25,7 +25,6 @@ class ImageController extends AbstractController
      */
     public function edit(Image $image, Request $request, EntityManagerInterface $manager, FileUploader $fileUploader): Response
     {
-        //TODO gerer la suppression de l'encienne image
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
