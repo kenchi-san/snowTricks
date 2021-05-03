@@ -4,11 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Entity\Image;
-use App\Entity\Video;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
 use App\Service\FileUploader;
-use App\Service\VideoFormat;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -25,9 +23,8 @@ class FigureController extends AbstractController
      * @param EntityManagerInterface $manager
      * @param Request $request
      * @param FileUploader $fileUploader
-     * @return array|Response
      */
-    public function add(EntityManagerInterface $manager, Request $request, FileUploader $fileUploader, VideoFormat $format)
+    public function add(EntityManagerInterface $manager, Request $request, FileUploader $fileUploader)
     {
         if (!$this->getUser()) {
             $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
@@ -44,14 +41,6 @@ class FigureController extends AbstractController
                 $image = new Image();
                 $image->setName($fileUploader->upload($file));
                 $figure->addImage($image);
-            }
-            $videos = new Video();
-            foreach ($form->getData()->getVideos() as $link) {
-                $new_links = $format->extractUrl($link);
-                $videos->setLink($new_links->getLink());
-                $new_links->setFigure($figure);
-
-
             }
 
             $manager->persist($figure);
@@ -119,9 +108,11 @@ class FigureController extends AbstractController
             $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
             return $this->redirectToRoute('app_homePage');
         }
+
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
 
             $files = $form->get('files')->getData();
             foreach ($files as $file) {
@@ -129,11 +120,14 @@ class FigureController extends AbstractController
                 $image->setName($fileUploader->upload($file));
                 $figure->addImage($image);
             }
+
             $manager->persist($figure);
             $manager->flush();
             $this->addFlash('success', 'la figure à bien été édité');
-            return $this->redirectToRoute('app_homePage');
+            return $this->redirectToRoute("app_edit_figure", ['id' => $figure->getId()]);
         }
+//        return $this->redirectToRoute('app_homePage');
         return $this->render('figure/editFigure.html.twig', ['form' => $form->createView()]);
+
     }
 }

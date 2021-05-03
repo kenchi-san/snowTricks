@@ -20,33 +20,29 @@ class FigureType extends AbstractType
         $builder
             ->add('name',
                 TextType::class,
-                ['label'=>'nom de la figure'])
-
+                ['label' => 'nom de la figure'])
             ->add('content',
                 TextareaType::class,
-                ['label'=>'contenue'])
-
+                ['label' => 'contenue'])
             ->add('category',
                 EntityType::class,
-                ['class'=>Category::class,
-                    'label'=>'catégorie'])
-
+                ['class' => Category::class,
+                    'label' => 'catégorie'])
             ->add('files',
                 FileType::class,
                 ['multiple' => true,
-                'mapped' => false,
-                'required' => false,
-                'by_reference'=>false,
-                'label'=>'ajouter une ou des images'
+                    'mapped' => false,
+                    'required' => false,
+                    'by_reference' => false,
+                    'label' => 'ajouter une ou des images'
                 ])
-
-            ->add('videos',CollectionType::class,
-                ['entry_type'=>VideoType::class,
-                    'allow_add'=>true,
-                    'allow_delete'=>true,
-                    'label'=>false,
-                ])
-        ;
+            ->add('videos', CollectionType::class,
+                ['entry_type' => VideoType::class,
+                    'by_reference' => false,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'label' => false,
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

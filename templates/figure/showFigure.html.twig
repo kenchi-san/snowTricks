@@ -9,7 +9,7 @@
     </p>
     <p>
         {% if app.user%}
-            <a href="{{ path('app_figure_edit', {'id': figure.id}) }}" ><i class="fas fa-pencil-alt" ></i></a>
+            <a href="{{ path('app_edit_figure', {'id': figure.id}) }}" ><i class="fas fa-pencil-alt" ></i></a>
         {% endif %}
 
         {{ figure.content }}
