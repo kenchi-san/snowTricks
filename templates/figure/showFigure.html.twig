@@ -3,13 +3,13 @@
 {% block title %}Hello FigureController!{% endblock %}
 
 {% block body %}
-<h1>{{ figure.name }}</h1>
+    <h1>{{ figure.name }}</h1>
     <p>
         <img src="{{ asset('uploads/figures/'~figure.images.first.name) }}" alt="{{ figure.images.first.name }}">
     </p>
     <p>
-        {% if app.user%}
-            <a href="{{ path('app_edit_figure', {'id': figure.id}) }}" ><i class="fas fa-pencil-alt" ></i></a>
+        {% if app.user %}
+            <a href="{{ path('app_edit_figure', {'id': figure.id}) }}"><i class="fas fa-pencil-alt"></i></a>
         {% endif %}
 
         {{ figure.content }}
@@ -20,12 +20,26 @@
                 <div class="row">
 
                     {% for image in figure.images %}
-                    <div class="col-3"><img src="{{ asset('uploads/figures/'~image.name) }}" >                    </div>
+                        <div class="col-3"><img src="{{ asset('uploads/figures/'~image.name) }}"></div>
 
-                {% endfor %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="container">
+        {% for comment in figure.comments %}
+            {% if app.user == comment.user%}
+                <a href="{{ path('app_edit_comment', {'id': comment.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                <a href="{{ path('app_deleted_comment', {'id': comment.id}) }}"><i class="fas fa-trash"></i></a>
+            {% endif %}
+        {{ comment.user.username }}<br>
+            {{ comment.content }}<br>
+            {{ comment.createdAt | date ("d/m/Y") }}<br>
+        {% endfor %}
+    </div>
+    {{ form_start(form) }}
+    {{ form_row(form.content) }}
+    <input class="btn btn-primary" type="submit" value="Valider">
+    {{ form_end(form) }}
 {% endblock %}

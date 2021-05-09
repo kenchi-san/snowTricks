@@ -2,16 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Figure;
 use App\Entity\Image;
+use App\Entity\User;
+use App\Form\CommentType;
 use App\Form\FigureType;
+use App\Repository\CommentRepository;
 use App\Repository\FigureRepository;
+use App\Security\FormAuthenticator;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FigureController extends AbstractController
@@ -59,8 +66,7 @@ class FigureController extends AbstractController
      * @param FigureRepository $figureRepository
      * @return Response
      */
-    public
-    function list(FigureRepository $figureRepository): Response
+    public function list(FigureRepository $figureRepository): Response
     {
         $figures = $figureRepository->findAll();
 
@@ -70,12 +76,24 @@ class FigureController extends AbstractController
     /**
      * @Route("/show/figure/{id}",name="app_show_figure")
      * @param Figure $figure
+     * @param Request $request
+     * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function show(Figure $figure): Response
+    public function show(Figure $figure, Request $request, EntityManagerInterface $manager): Response
     {
-
-        return $this->render("figure/showFigure.html.twig", ['figure' => $figure]);
+        $myComment = new Comment();
+        $form = $this->createForm(CommentType::class, $myComment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $myComment->setContent($myComment->getContent());
+            $myComment->setUser($this->getUser());
+            $figure->addComment($myComment);
+            $manager->persist($figure);
+            $manager->flush();
+            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId()]);
+        }
+        return $this->render("figure/showFigure.html.twig", ['figure' => $figure, 'form' => $form->createView()]);
     }
 
     /**
@@ -85,8 +103,9 @@ class FigureController extends AbstractController
      * @param FileUploader $fileUploader
      * @return RedirectResponse
      */
-    public function deleted(Figure $figure, EntityManagerInterface $manager, FileUploader $fileUploader): RedirectResponse
+    public function deleted(Figure $figure,EntityManagerInterface $manager, FileUploader $fileUploader): RedirectResponse
     {
+
         $manager->remove($figure);
         $manager->flush();
         $fileUploader->remove($figure->getImages()->getValues());
