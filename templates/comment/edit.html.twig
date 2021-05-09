@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edition du commentaire{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_row(form.content) }}
+    <input class="btn btn-primary" type="submit" value="Valider">
+    {{ form_end(form) }}
+{% endblock %}
+
+
+

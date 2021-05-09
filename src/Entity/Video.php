@@ -79,7 +79,6 @@ class Video
             foreach (self::FROM_SOCIAL as $regex){
                 if (preg_match($regex, $link, $matches)) {
                     $link = self::GOOD_SOCIAL. $matches['code'];
-                    $this->setLink($link);
                 }
             }
         }
