@@ -38,10 +38,11 @@ class FileUploader
      */
     public function remove(array $images)
     {
-            foreach ($images as $image) {
-                if (file_exists($this->getTargetDirectory().'/'.$image)) {
-                unlink($this->getTargetDirectory().'/'.$image);
+        foreach ($images as $image) {
+            if (file_exists($this->getTargetDirectory() . '/' . $image)) {
+                unlink($this->getTargetDirectory() . '/' . $image);
             }
+
         }
     }
 

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_row(form.link) }}
+{#    <ul class="videos" data-prototype="{{ form_row(form.videos.vars.prototype)|e('html_attr') }}">#}
+{#        {% for video in form.videos %}#}
+{#            <li>{{ form_row(video.link) }}</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+    <input class="btn btn-primary" type="submit" value="Valider">
+    {{ form_end(form) }}
+{% endblock %}

@@ -7,13 +7,6 @@ body {
     margin-right: 5rem;
     margin-left: 5rem;
 }
-footer {
-    background-color: #eee;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 50px 25px 25px;
-}
 
 ul, li {
     list-style-type: none;
