@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
@@ -38,16 +39,24 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @param Request $request
+     * @return bool
+     */
     public function supports(Request $request)
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     */
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'email'=>$request->request->get('email'),
+            'email' => $request->request->get('email'),
             'userName' => $request->request->get('userName'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_token'),
@@ -68,26 +77,29 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         }
 
         $user = $this->userRepository->findOneBy(['userName' => $credentials['userName']]);
-
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('utilisateur non trouvé');
         }
 
-        if(!$user->getIsVerified()){
-        throw new CustomUserMessageAuthenticationException('Validez votre email.');
+        if (!$user->getIsVerified()) {
+            throw new CustomUserMessageAuthenticationException('Validez votre email.');
 
         }
-
         return $user;
     }
 
 
+    /**
+     * @param mixed $credentials
+     * @param UserInterface $user
+     * @return bool
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if(!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])){
+
+        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
             throw new CustomUserMessageAuthenticationException('Mot de passe incorrect');
         }
-
         return true;
     }
 
@@ -102,15 +114,41 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
     }
 
 
+    /**
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param string $providerKey
+     * @return RedirectResponse
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-        return new RedirectResponse($this->urlGenerator->generate('app_homePage'));    }
+        return new RedirectResponse($this->urlGenerator->generate('app_homePage'));
+    }
 
+    /**
+     * @return string
+     */
     protected function getLoginUrl()
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+    }
+
+    /**
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return RedirectResponse
+     */
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        if ($request->hasSession()) {
+            return $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+        }
+
+        $url = $this->getLoginUrl();
+
+        return new RedirectResponse($url);
     }
 }

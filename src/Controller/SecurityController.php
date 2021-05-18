@@ -27,10 +27,10 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-if ($this->getUser()){
-    $this->addFlash('warning', 'Vous êtes déjà connecté');
-   return $this->redirectToRoute('app_homePage');
-}
+        if ($this->getUser()) {
+            $this->addFlash('warning', 'Vous êtes déjà connecté');
+            return $this->redirectToRoute('app_homePage');
+        }
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -61,7 +61,7 @@ if ($this->getUser()){
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user = $entityManager->getRepository(User::class)->findOneBy(['email'=>$form->get('email')->getData()]);
+            $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $form->get('email')->getData()]);
 
             if (!$user) {
                 $this->addFlash('danger', 'Compte non trouvé');
@@ -107,14 +107,14 @@ if ($this->getUser()){
         $user = $entityManager->getRepository(User::class)->findOneBy(['token' => $request->get('token')]);
 
         if (!$user) {
-            $this->addFlash('danger','Utilisateur non trouvé');
+            $this->addFlash('danger', 'Utilisateur non trouvé');
         }
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword( $passwordEncoder->encodePassword($user,$form->get('password')->getData()));
+            $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')->getData()));
             $user->setToken(null);
             $entityManager->flush();
-            $this->addFlash('success','le mot de passe a bien été modifier ');
-           return $this->redirectToRoute('app_homePage');
+            $this->addFlash('success', 'le mot de passe a bien été modifier ');
+            return $this->redirectToRoute('app_homePage');
 
         }
 

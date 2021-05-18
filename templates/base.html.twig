@@ -28,11 +28,13 @@
                 <i class="fa fa-bars"></i></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto text-uppercase">
-                    <li class="nav-item"><a class="nav-link active js-scroll-trigger" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Team</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link active js-scroll-trigger" href="{{ path('app_homePage') }}">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_add_figure') }}">ajouter une figure</a></li>
+                   {% if app.user %}
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_login') }}">Connexion</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -58,16 +60,16 @@
 {% endblock body %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/my_js.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
             integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
+    <script src="{{ asset('js/my_js.js') }}"></script>
 {% endblock %}
 </body>
 {% block footer %}
