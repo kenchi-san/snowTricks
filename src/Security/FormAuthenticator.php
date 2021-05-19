@@ -136,19 +136,4 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 
-    /**
-     * @param Request $request
-     * @param AuthenticationException $exception
-     * @return RedirectResponse
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        if ($request->hasSession()) {
-            return $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
-        }
-
-        $url = $this->getLoginUrl();
-
-        return new RedirectResponse($url);
-    }
 }

@@ -58,9 +58,7 @@ class SecurityController extends AbstractController
         $user = new User();
         $form = $this->createForm(ResetPasswordType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $form->get('email')->getData()]);
 
             if (!$user) {
@@ -107,7 +105,7 @@ class SecurityController extends AbstractController
         $user = $entityManager->getRepository(User::class)->findOneBy(['token' => $request->get('token')]);
 
         if (!$user) {
-            $this->addFlash('danger', 'Utilisateur non trouvé');
+             $this->addFlash('danger', 'Utilisateur non trouvé');
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')->getData()));
