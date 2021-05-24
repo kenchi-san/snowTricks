@@ -5,30 +5,62 @@
     {% block javascripts %}{% endblock %}
 
 {% block body %}
-<div class="row row-cols-2 row-cols-md-5">
-    {% for figure in figures %}
-        <div class="col mb-4">
-            <div class="card img_home_page">
-                <a href="{{ path('app_show_figure',{ id:figure.id}) }}">
-                    {% if figure.images.first %}
-                        <img src=" {{ asset('uploads/figures/'~figure.images.first.name) }}" class="card-img-top"
-                                alt="{{ figure.images.first.name }}">
-                    {% endif %}
-                </a>
-                <div class="card-body">
-                    {% if app.user %}
-                        <a href="{{ path('app_edit_figure', {'id': figure.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="{{ path('app_deleted_figure', {'id': figure.id}) }}"><i class="fas fa-trash"></i></a>
 
-                    {% endif %}
 
-                    <h5 class="card-title">{{ figure.name }}</h5>
-                    <p class="card-text">{{ figure.content }}</p>
-                    <p>{{ figure.category.name }}</p>
-                </div>
+<section class="bg-light" id="portfolio">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="text-uppercase section-heading">Liste des figures</h2>
+{#                <h3 class="text-muted section-subheading"></h3>#}
             </div>
         </div>
-    {% endfor %}
-</div>
-{% endblock %}
+        <div class="row">
+            {% for figure in figures %}
+                <div class="col-sm-6 col-md-4 portfolio-item">
+                    <a class="portfolio-link" data-toggle="modal" href="{{ path('app_show_figure', {'id': figure.id}) }}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                        </div>
+                        {% if figure.images.first %}
+                        <img class="img-fluid" src="{{ asset('uploads/figures/'~figure.images.first.name) }}"
+                             alt="{{ figure.images.first.name }}">
+                        {% endif %}
+                    </a>
+                    <div class="portfolio-caption">
+                        {% if app.user %}
+                            <a href="{{ path('app_edit_figure', {'id': figure.id}) }}"><i
+                                        class="fas fa-pencil-alt"></i></a>
+                            <a href="{{ path('app_deleted_figure', {'id': figure.id}) }}"><i
+                                        class="fas fa-trash"></i></a>
+                        {% endif %}
+                        <h5 class="card-title">{{ figure.name }}</h5>
+                        <p class="card-text">{{ figure.content }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"><span class="copyright">Copyright&nbsp;© Brand 2021</span></div>
+            <div class="col-md-4">
+                <ul class="list-inline social-buttons">
+                    <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline quicklinks">
+                    <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                    <li class="list-inline-item"><a href="#">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
 
+{% endblock body %}

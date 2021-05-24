@@ -5,20 +5,16 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Figure;
 use App\Entity\Image;
-use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\FigureType;
-use App\Repository\CommentRepository;
 use App\Repository\FigureRepository;
-use App\Security\FormAuthenticator;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FigureController extends AbstractController
@@ -30,14 +26,10 @@ class FigureController extends AbstractController
      * @param EntityManagerInterface $manager
      * @param Request $request
      * @param FileUploader $fileUploader
+     * @IsGranted("ROLE_USER")
      */
     public function add(EntityManagerInterface $manager, Request $request, FileUploader $fileUploader)
     {
-        if (!$this->getUser()) {
-            $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
-            return $this->redirectToRoute('app_homePage');
-        }
-
         $figure = new Figure();
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
@@ -86,6 +78,7 @@ class FigureController extends AbstractController
         $form = $this->createForm(CommentType::class, $myComment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             $myComment->setContent($myComment->getContent());
             $myComment->setUser($this->getUser());
             $figure->addComment($myComment);
@@ -127,7 +120,6 @@ class FigureController extends AbstractController
             $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
             return $this->redirectToRoute('app_homePage');
         }
-
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
