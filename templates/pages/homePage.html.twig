@@ -35,7 +35,8 @@
                                         class="fas fa-trash"></i></a>
                         {% endif %}
                         <h5 class="card-title">{{ figure.name }}</h5>
-                        <p class="card-text">{{ figure.content }}</p>
+                        <p class="card-text">{{ figure.content|length > 100 ? figure.content|slice(0, 100) ~ '...' : figure.content }}
+                            </p>
                     </div>
                 </div>
             {% endfor %}

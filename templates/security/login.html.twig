@@ -3,21 +3,32 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    {% if error %}
-        {{ error }}
-    {% endif %}
-    <div class="container h-100">
-            <div class="col align-self-center">
-                {{ form_start(form) }}
-                {{ form_row(form.userName, {label: 'nom d\'utilisateur'}) }}
-                {{ form_row(form.password, {label: 'mot de passe'}) }}
-                {{ form_row(form._remember_me, {label: 'ce souvenir de moi'}) }}
-                <input type="submit" value="créer votre compte ">
-                <br>
-                <a class="underlineHover" href="{{ path('app_reset_password') }}">Mot de passe oublié ?</a>
+    <div class="container full-height">
+        <div class="row flex center v-center full-height">
+            <div class="col-8 col-sm-4">
+                <div class="form-box">
+                    {{ form_start(form) }}
+                    {% if error %}
+                        {{ error }}
+                    {% endif %}
+                    <fieldset>
+                        <legend>connexion</legend>
 
-                {{ form_end(form) }}
+                        {{ form_row(form.userName, {label: 'nom d\'utilisateur'}) }}
+                        {{ form_row(form.password, {label: 'mot de passe'}) }}
+                        {{ form_row(form._remember_me, {label: 'ce souvenir de moi'}) }}
+                        <input type="submit" value="Valider ">
+                        <br>
+                        <a class="underlineHover" href="{{ path('app_reset_password') }}">Mot de passe oublié ?</a>
+                    </fieldset>
+                    {{ form_end(form) }}
+
+                </div>
             </div>
         </div>
-
+    </div>
+    {% block javascripts %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    {% endblock %}
 {% endblock %}

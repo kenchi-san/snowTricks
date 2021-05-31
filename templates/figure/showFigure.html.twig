@@ -3,45 +3,125 @@
 {% block title %}Hello FigureController!{% endblock %}
 
 {% block body %}
-    <h1>{{ figure.name }}</h1>
-    <p>
-        <img src="{{ asset('uploads/figures/'~figure.images.first.name) }}" alt="{{ figure.images.first.name }}">
-    </p>
-    <p>
-        {% if app.user %}
-            <a href="{{ path('app_edit_figure', {'id': figure.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-        {% endif %}
 
-        {{ figure.content }}
-    </p>
-    <div class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="row">
 
-                    {% for image in figure.images %}
-                        <div class="col-3"><img src="{{ asset('uploads/figures/'~image.name) }}"></div>
 
-                    {% endfor %}
+    <section class="article-clean">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
+                    <div class="intro">
+                        <h1 class="text-center">{{ figure.name }}</h1><img class="img-fluid"
+                                                                           src="{{ asset('uploads/figures/'~figure.images.first.name) }}"
+                                                                           alt="{{ asset('uploads/figures/'~figure.images.first.name) }}">
+                    </div>
+                    <div class="text">
+                        <p>{{ figure.content }}</p>
+                        <figure class="figure d-block">
+                            <figcaption class="figure-caption"></figcaption>
+                        </figure>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <section class="photo-gallery">
+                        <div class="container">
+                            <div class="intro">
+                                <h2 class="text-center">Liste des photos</h2>
+                            </div>
+                            <div class="row photos" data-bss-baguettebox="">
+                                {% for image in figure.images %}
+                                    <div class="col-sm-6 col-md-4 col-lg-3 item"><a
+                                                href="{{ asset('uploads/figures/'~image.name) }}"><img class="img-fluid"
+                                                                                                       src="{{ asset('uploads/figures/'~image.name) }}"></a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-md-6">
+                    <section class="photo-gallery"></section>
+                    <h2 class="text-center">Liste des vidéos</h2>
+                    <main class="page">
+                        <section class="clean-block about-us">
+                            <div class="container">
+                                <div class="block-heading" style="margin-top: 45px;"></div>
+                                <div class="row justify-content-center">
+                                    {% for video in figure.videos %}
+                                        <div class="col-sm-12 col-md-6 col-lg-4" style="border-style: none;">
+                                            <div class="card clean-card text-center">
+                                                <iframe allowfullscreen="" frameborder="0" src="{{ video.link }}"
+                                                        style="height: 200px;"></iframe>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="card">
+        <div class="card-header">
+            <h3>zone de commentaire</h3>
+        </div>
+        <div class="card-body" style="height:233px;">
+
+
+            <ul class="list-group">
+                {% for comment in figure.comments %}
+                    <li class="list-group-item" style="margin-bottom:6px;">
+
+                        <div class="d-flex media">
+                            <div></div>
+
+                            <div class="media-body">
+                                <div class="d-flex media" style="overflow:visible;">
+                                    {% if is_granted('COMMENT_EDIT', comment) %}
+                                        <a href="{{ path('app_edit_comment', {'id': comment.id}) }}">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                    {% endif %}
+                                    {% if is_granted('COMMENT_DELETE', comment) %}
+                                        <a href="{{ path('app_deleted_comment', {'id': comment.id}) }}"><i
+                                                    class="fas fa-trash"></i></a>
+                                    {% endif %}
+                                    <div>
+                                        <img class="mr-3" style="width: 25px; height:25px;"
+                                             src="assets/img/user-photo4.jpg"></div>
+                                    <div style="overflow:visible;" class="media-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p>{{ comment.user.username }}: {{ comment.content }} <br>
+                                                    <small class="text-muted">{{ comment.createdAt | date ("d/m/Y") }} </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="container">
+                {% if app.user %}
+                    {{ form_start(form) }}
+                    {{ form_row(form.content) }}
+                    <input class="btn btn-primary" type="submit" value="Valider">
+                    {{ form_end(form) }}
+                {% endif %}
+            </div>
+        </div>
     </div>
-    <div class="container">
-        {% for comment in figure.comments %}
-            {% if app.user == comment.user%}
-                <a href="{{ path('app_edit_comment', {'id': comment.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                <a href="{{ path('app_deleted_comment', {'id': comment.id}) }}"><i class="fas fa-trash"></i></a>
-            {% endif %}
-            {{ comment.user.username }}<br>
-            {{ comment.content }}<br>
-            {{ comment.createdAt | date ("d/m/Y") }}<br>
-        {% endfor %}
-    </div>
-    {% if app.user %}
-    {{ form_start(form) }}
-    {{ form_row(form.content) }}
-    <input class="btn btn-primary" type="submit" value="Valider">
-    {{ form_end(form) }}
-    {% endif %}
+    <script src="{{ asset('js/agency.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 {% endblock %}
