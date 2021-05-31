@@ -2,22 +2,30 @@
 {% block title %}Edition de la figure{% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.content) }}
-    {{ form_row(form.category) }}
-    {{ form_row(form.files) }}
+    <div class="container">
+        <div class="row pt-4">
+            <div class="col-6">
+                {{ form_start(form) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.content) }}
+                {{ form_row(form.category) }}
+                {{ form_row(form.files) }}
 
-    <ul class="videos" data-prototype="{{ form_row(form.videos.vars.prototype)|e('html_attr') }}">
-        {% for video in form.videos %}
-            <li>{{ form_row(video.link) }}</li>
-        {% endfor %}
-    </ul>
-    <button type="button" class="add_item_link" data-collection-holder-class="videos">champs supplémentaire</button>
-
-    <input class="btn btn-primary" type="submit" value="Valider">
+            </div>
+            <div class="col-6">
+                <ul class="videos" data-prototype="{{ form_row(form.videos.vars.prototype)|e('html_attr') }}">
+                    {% for video in form.videos %}
+                        <li>{{ form_row(video.link) }}</li>
+                    {% endfor %}
+                </ul>
+                <button type="button" class="add_item_link" data-collection-holder-class="videos">champs supplémentaire</button>
+            </div>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Valider">
+    </div>
 
     {{ form_end(form) }}
+
 {% endblock %}
 
 

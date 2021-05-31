@@ -37,6 +37,7 @@ class Comment
      */
     private $figure;
 
+
 public function __construct()
 {
     $this->setCreatedAt( new \DateTime());
@@ -94,4 +95,5 @@ public function __construct()
 
         return $this;
     }
+
 }
