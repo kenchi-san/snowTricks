@@ -3,7 +3,8 @@
 {% block title %}Ajouter une figure{% endblock %}
 
 {% block body %}
-    <div class="container">
+
+    <div id="add_figure" class="container">
 <div class="row pt-4">
     <div class="col-6">
         {{ form_start(form) }}
@@ -27,5 +28,10 @@
 
         {{ form_end(form) }}
 
-    <script src="{{ asset('js/my_js.js') }}"></script>
+{% endblock %}
+
+
+
+{% block javascripts %}
+    <script src="{{ asset('js/formCollection.js') }}"></script>
 {% endblock %}

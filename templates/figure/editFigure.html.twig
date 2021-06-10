@@ -2,7 +2,7 @@
 {% block title %}Edition de la figure{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div id="edit" class="container">
         <div class="row pt-4">
             <div class="col-6">
                 {{ form_start(form) }}
@@ -26,6 +26,12 @@
 
     {{ form_end(form) }}
 
+{% endblock %}
+
+
+
+{% block javascripts %}
+    <script src="{{ asset('js/formCollection.js') }}"></script>
 {% endblock %}
 
 
