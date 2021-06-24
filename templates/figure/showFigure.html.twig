@@ -1,19 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FigureController!{% endblock %}
+{% block title %}{{ figure.name }}{% endblock %}
+
 
 {% block body %}
-
 
 
     <section class="article-clean">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
-                    <div class="intro">
-                        <h1 class="text-center">{{ figure.name }}</h1><img class="img-fluid"
-                                                                           src="{{ asset('uploads/figures/'~figure.images.first.name) }}"
-                                                                           alt="{{ asset('uploads/figures/'~figure.images.first.name) }}">
+                    <div class="intro ">
+                            <h1 class="text-center">{{ figure.name }}</h1>
+
+                        <img class="img-fluid"
+                             src="{{ asset('uploads/figures/'~figure.images.first.name) }}"
+                             alt="{{ asset('uploads/figures/'~figure.images.first.name) }}">
                     </div>
                     <div class="text">
                         <p>{{ figure.content }}</p>
@@ -54,8 +56,11 @@
                                     {% for video in figure.videos %}
                                         <div class="col-sm-12 col-md-6 col-lg-4" style="border-style: none;">
                                             <div class="card clean-card text-center">
-                                                <iframe allowfullscreen="" frameborder="0" src="{{ video.link }}"
-                                                        style="height: 200px;"></iframe>
+
+                                                <iframe width="200" height="200"
+                                                        src="{{ video.link }}"
+                                                        frameborder="0" allow="autoplay; encrypted-media"
+                                                        allowfullscreen></iframe>
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -93,7 +98,7 @@
                                                     class="fas fa-trash"></i></a>
                                     {% endif %}
                                     <div>
-                                        <img class="mr-3" style="width: 25px; height:25px;"
+                                        <img class="mr-3" style="width: 25px; height:25px;" alt="avatar"
                                              src="assets/img/user-photo4.jpg"></div>
                                     <div style="overflow:visible;" class="media-body">
                                         <div class="row">
@@ -122,6 +127,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/agency.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
 {% endblock %}

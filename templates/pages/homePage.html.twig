@@ -9,20 +9,21 @@
 {% block body %}
 
 
-    <section class="bg-light"  id="portfolio" >
+    <section class="bg-light" id="portfolio">
         <div id="ancreHeader" class="container-fluid">
-            <div  class="row">
-                <div  class="col-lg-12 text-center">
-                    <h2  class="text-uppercase section-heading">Liste des figures</h2>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="text-uppercase section-heading">Liste des figures</h2>
                 </div>
             </div>
             <div class="row">
                 {% for figure in figures %}
-                    <div class="col-sm-12 col-md-12 col-lg-2 portfolio-item">
-                        <a class="portfolio-link" data-toggle="modal"
+                    <div class="col-sm-12 col-md-12 col-lg-3 portfolio-item d-none">
+                        <a class="portfolio-link " data-toggle="modal"
                            href="{{ path('app_show_figure', {'id': figure.id}) }}">
                             <div class="portfolio-hover">
-                                <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                                <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i>
+                                </div>
                             </div>
                             {% if figure.images.first %}
                                 <img class="img-fluid" src="{{ asset('uploads/figures/'~figure.images.first.name) }}"
@@ -42,27 +43,23 @@
                                             </button>
                                         </a>
 
-                                        <button type="button" onclick="formPreDelete({{ figure.id }})"
-                                                class="fas fa-trash "
-                                                data-bs-toggle="modal" data-bs-target="#delete_figure">
+                                        <button type="button" class="fas fa-trash js-button-delete-trick"
+                                                data-href="{{ path('app_deleted_figure', {'id': figure.id}) }}">
                                         </button>
                                     {% endif %}
                                 </div>
 
                             </div>
 
-                            {# <p class="card-text">{{ figure.content|length > 100 ? figure.content|slice(0, 100) ~ '...' : figure.content }} #}
-                            {# </p> #}
                         </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
         <div class="row ">
-            <div class="   col-6" style="text-align: right">
-                <div id="loadMore">
-                    <button type="button">Voir plus</button>
-                </div>
+            <div class="col-sm-12 col-md-6" style="text-align: right">
+                <button type="button" class="js-add-more-figure">Voir plus</button>
+
             </div>
             <div class="  col-6 " style="text-align: right">
                 <a href="#ancreHeader"> <i class="fas fa-arrow-alt-circle-up fa-4x text-primary"></i></a>
@@ -72,30 +69,25 @@
         </div>
     </section>
     {# modale de suppréssion #}
-    {% for figure in figures %}
 
-        <div class="modal fade" id="delete_figure" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Suppréssion</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Êtes vous sûre de vouloir supprimer ?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">non</button>
-                        <button type="button" class="btn btn-primary"
-                                onclick="window.location.href ='{{ path('app_deleted_figure', {'id': figure.id}) }}'; ">
-                            oui
-                        </button>
-                    </div>
+    <div class="modal fade" id="delete_figure" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Êtes vous sûre de vouloir supprimer ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">non</button>
+                    <a class="btn btn-primary js-delete_figure_modal_link" href="#">oui</a>
                 </div>
             </div>
         </div>
-    {% endfor %}
+    </div>
 
 
     <footer>
@@ -120,3 +112,8 @@
     </footer>
 
 {% endblock body %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('js/homepage.js') }}"></script>
+{% endblock %}

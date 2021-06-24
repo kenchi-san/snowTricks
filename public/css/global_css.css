@@ -100,6 +100,18 @@ ul, li {
     max-width: 100%;
 }
 
-
-
-
+#portfolio .portfolio-item .portfolio-link {
+    position: relative;
+    display: block;
+    max-width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    cursor: pointer;
+}
+#portfolio .portfolio-item .portfolio-caption {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 25px;
+    text-align: center;
+    background-color: #fff;
+}

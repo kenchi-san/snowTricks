@@ -5,13 +5,14 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
 
     {% block stylesheets %}
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="{{ asset('css/Videos-in-rows-2-and-3-videos-per-row.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/Article-Clean.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/Community-ChatComments.css') }}">
 
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet"/>
+
+        <link rel="stylesheet" href="{{ asset('css/Videos-in-rows-2-and-3-videos-per-row.css') }}">
         <link rel="stylesheet" href="{{ asset('css/login.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/Article-Clean.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/Community-ChatComments.css') }}">
         <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
 
         <link href="{{ asset('css/global_css.css') }}" rel="stylesheet"/>
@@ -23,7 +24,7 @@
 <body>
 {% block nav %}
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark" id="mainNav">
-        <div class="container"><a class="navbar-brand" href="{{ path('app_homePage') }}#ancreHeader">Snowtricks</a>
+        <div class="container-fluid"><a class="navbar-brand" href="{{ path('app_homePage') }}#ancreHeader">Snowtricks</a>
             <button data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
                     class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive"
                     aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
@@ -61,7 +62,6 @@
             {% block bottomHeader %}
             {% endblock %}
         </div>
-
     </header>
 
 {% endblock nav %}
