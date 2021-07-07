@@ -43,7 +43,7 @@ function addFormToCollection($collectionHolder) {
 }
 
 function addEntryDeleteLink($entry) {
-    const $removeFormButton = $('<button type="button">supprimer un champs</button>');
+    const $removeFormButton = $('<button type="button">supprimer </button>');
     $entry.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {

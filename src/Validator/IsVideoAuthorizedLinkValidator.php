@@ -24,7 +24,6 @@ class IsVideoAuthorizedLinkValidator extends ConstraintValidator
         if (preg_match("#^https://www.dailymotion.com/embed/video/#",$value)) {
             return;
         }
-        // TODO: implement the validation here
         $this->context->buildViolation($constraint->message)
             ->setParameter('{{ value }}', $value)
             ->addViolation();
