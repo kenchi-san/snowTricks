@@ -1,5 +1,6 @@
 body {
     height: 100%;
+    padding-top: 3rem;
 }
 
 .card-deck{
@@ -115,3 +116,5 @@ ul, li {
     text-align: center;
     background-color: #fff;
 }
+
+
