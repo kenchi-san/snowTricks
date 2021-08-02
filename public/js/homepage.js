@@ -10,17 +10,17 @@ const figureTrickButton = document.querySelector('.js-add-more-figure');
 const FIGURES_PER_PAGE = 8;
 
 function showMoreFigure() {
-    const figures = document.querySelectorAll('.portfolio-item.d-none')
-    let count = figures.length-FIGURES_PER_PAGE;
+    const figures = document.querySelectorAll('.portfolio-item.d-none');
     for (let i = 0; i < figures.length; i++) {
         if (i >= FIGURES_PER_PAGE) {
-            count -= i;
             break;
         }
         figures[i].classList.remove('d-none');
-        if (count <= 0){
-            figureTrickButton.classList.add('d-none');
-        }
+    }
+
+    let nbFiguresHidden = document.querySelectorAll('.portfolio-item.d-none').length;
+    if (nbFiguresHidden === 0){
+        figureTrickButton.classList.add('d-none');
     }
 
 }

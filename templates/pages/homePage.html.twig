@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% block title %}page d'accueil{% endblock %}
 
 {% block bottomHeader %}
     <div style="text-align: right">
@@ -26,7 +27,7 @@
                                 </div>
                             </div>
                             {% if figure.images.first %}
-                                <img class="img-fluid" src="{{ asset('uploads/figures/'~figure.images.first.name) }}"
+                                <img class="img-fluid w-100" src="{{ asset('uploads/figures/'~figure.images.first.name) }}"
                                      alt="{{ figure.images.first.name }}">
                             {% endif %}
                         </a>
@@ -37,7 +38,6 @@
                                 </div>
                                 <div class="col-5">
                                     {% if app.user %}
-
                                         <a href="{{ path('app_edit_figure', {'id': figure.id}) }}#edit">
                                             <button type="button" class="fas fa-pencil-alt ">
                                             </button>
@@ -76,7 +76,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Suppression</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal-body">
                     Êtes vous sûre de vouloir supprimer ?
@@ -90,30 +90,11 @@
     </div>
 
 
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4"><span class="copyright">Copyright&nbsp;© Brand 2021</span></div>
-                <div class="col-md-4">
-                    <ul class="list-inline social-buttons">
-                        <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <ul class="list-inline quicklinks">
-                        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-                        <li class="list-inline-item"><a href="#">Terms of Use</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
 
 {% endblock body %}
 
 {% block javascripts %}
-
     <script src="{{ asset('js/homepage.js') }}"></script>
+
+
 {% endblock %}
