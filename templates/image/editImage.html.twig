@@ -2,12 +2,30 @@
 {% block title %}Edition de l'image{% endblock %}
 
 {% block body %}
-    <img src="{{ asset('uploads/figures/'~image.name) }}" alt="{{ image.name }}">
-    {{ form_start(form) }}
-    {{ form_row(form) }}
-    <input class="btn btn-primary" type="submit" value="Valider">
 
-    {{ form_end(form) }}
+
+    <div class="container flex center v-center full-height ">
+        <div  class="col-sm-12 offset-lg-1 col-lg-4 col-md-12 ">
+            <div  class="form-box" >
+                {{ form_start(form) }}
+                <h1>Votre image</h1>
+                <img class="h-100 w-100" src="{{ asset('uploads/figures/'~image.name) }}" alt="{{ image.name }}" >
+
+                {{ form_row(form) }}
+                <input class="btn btn-primary" type="submit" value="Valider">
+                <a href="{{ path('app_edit_figure', {'id': image.figure.id}) }}">
+                    <input class="btn btn-primary" type="text" value="Retour à la page d'édition">
+                </a>
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 {% endblock %}
 
 

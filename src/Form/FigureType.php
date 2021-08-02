@@ -30,18 +30,21 @@ class FigureType extends AbstractType
                     'label' => 'catégorie'])
             ->add('files',
                 FileType::class,
-                ['multiple' => true,
+                [
+                    'multiple' => true,
                     'mapped' => false,
                     'required' => false,
                     'by_reference' => false,
                     'label' => 'ajouter une ou des images'
                 ])
             ->add('videos', CollectionType::class,
-                ['entry_type' => VideoType::class,
+                [
+                    'entry_type' => VideoType::class,
+                    'label'=>false,
+                    'entry_options' => ['label' => false],
                     'by_reference' => false,
                     'allow_add' => true,
                     'allow_delete' => true,
-                    'label' => false,
                 ]);
     }
 

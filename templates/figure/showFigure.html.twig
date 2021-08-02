@@ -1,47 +1,146 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FigureController!{% endblock %}
+{% block title %}{{ figure.name }}{% endblock %}
+
 
 {% block body %}
-    <h1>{{ figure.name }}</h1>
-    <p>
-        <img src="{{ asset('uploads/figures/'~figure.images.first.name) }}" alt="{{ figure.images.first.name }}">
-    </p>
-    <p>
-        {% if app.user %}
-            <a href="{{ path('app_edit_figure', {'id': figure.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-        {% endif %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('css/figure_details.css') }}">
 
-        {{ figure.content }}
-    </p>
-    <div class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="row">
+    {% endblock %}
+    {% block headerText %}
+    {% endblock %}
 
-                    {% for image in figure.images %}
-                        <div class="col-3"><img src="{{ asset('uploads/figures/'~image.name) }}"></div>
 
-                    {% endfor %}
+    <section>
+        <div class="container">
+            <div id="image_top_show" class="bg-image row mb-2 img-thumbnail"
+                 style="background-image:url('{{ asset('uploads/figures/') }}{{ figure.images.first.name }}')">
+                <div class="row offset-sm-10 offset-md-10 offset-lg-11">
+                    {% if app.user %}
+                        <a href="{{ path('app_edit_figure', {'id': figure.id}) }}#edit">
+                            <button type="button" class="fas fa-pencil-alt ">
+                            </button>
+                        </a>
+
+                        <button type="button" class="fas fa-trash js-button-delete-trick"
+                                data-href="{{ path('app_deleted_figure', {'id': figure.id}) }}">
+                        </button>
+                    {% endif %}
+                </div>
+
+                <h1>{{ figure.name }}</h1>
+
+            </div>
+            <div class="row">
+                {% for image in figure.images %}
+                    <div class="col-sm-6 col-md-12  col-lg-2 pb-1 js-trick-media d-none">
+                        <img class="img-fluid h-100 w-100" src="{{ asset('uploads/figures/'~image.name) }}"
+                             alt="{{ asset('uploads/figures/'~image.name) }}">
+
+                    </div>
+                {% endfor %}
+                {% for video in figure.videos %}
+                    <div class="col-sm-6 col-md-12 col-lg-2 pb-1 js-trick-media d-none">
+                        <iframe class="w-100 "
+                                src="{{ video.link }}"
+                                frameborder="0" allow="autoplay; encrypted-media"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button class=" btn btn-primary js-add-more-medias " type="button">Voir plus</button>
                 </div>
             </div>
+            <p class="h-md-2 lh-1">
+                {{ figure.content }}
+            </p>
+        </div>
+    </section>
+
+
+    <div class="container">
+        <div class="row d-flex justify-content-around pb-5">
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                {{ figure.category.name }}
+            </div>
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                date de création
+            </div>
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                date de modification
+            </div>
+
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>zone de commentaire</h3>
+            </div>
+            {% if app.user %}
+                <div class="card-body">
+                    <div class="container">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                {{ form_row(form.content) }}
+                            </div>
+                            <div class="col-sm-12  col-md-12 col-lg-6 mt-auto">
+                                <input class="btn btn-primary " type="submit" value="Valider">
+                            </div>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            {% endif %}
+            <ul class="list-group">
+                {% for comment in figure.comments %}
+                    <li class="list-group-item js-show-comments d-none" style="margin-bottom:6px;">
+
+                        <div class="d-flex media">
+
+                            <div class="media-body">
+                                <div class="d-flex media" style="overflow:visible;">
+                                    {% if is_granted('COMMENT_EDIT', comment) %}
+                                        <a href="{{ path('app_edit_comment', {'id': comment.id}) }}">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                    {% endif %}
+                                    {% if is_granted('COMMENT_DELETE', comment) %}
+                                        <a href="{{ path('app_deleted_comment', {'id': comment.id}) }}"><i
+                                                    class="fas fa-trash"></i></a>
+                                    {% endif %}
+                                    <div>
+                                        <img id="avatar_comment"
+                                             src="https://robohash.org/{{ comment.user.username }}.png"></div>
+                                    <div style="overflow:visible;" class="media-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p>{{ comment.user.username }}:
+                                                    <br>
+                                                    {{ comment.content }} <br>
+                                                    <small class="text-muted">{{ comment.createdAt | date ("d/m/Y") }} </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <button class="btn btn-primary" type="button" id="js-add-more-comments">Voir plus</button>
         </div>
     </div>
-    <div class="container">
-        {% for comment in figure.comments %}
-            {% if app.user == comment.user%}
-                <a href="{{ path('app_edit_comment', {'id': comment.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                <a href="{{ path('app_deleted_comment', {'id': comment.id}) }}"><i class="fas fa-trash"></i></a>
-            {% endif %}
-            {{ comment.user.username }}<br>
-            {{ comment.content }}<br>
-            {{ comment.createdAt | date ("d/m/Y") }}<br>
-        {% endfor %}
-    </div>
-    {% if app.user %}
-    {{ form_start(form) }}
-    {{ form_row(form.content) }}
-    <input class="btn btn-primary" type="submit" value="Valider">
-    {{ form_end(form) }}
-    {% endif %}
+
+{% endblock body %}
+{% block javascripts %}
+    <script src="{{ asset('js/showpage.js') }}"></script>
+
 {% endblock %}

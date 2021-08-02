@@ -2,23 +2,138 @@
 {% block title %}Edition de la figure{% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.content) }}
-    {{ form_row(form.category) }}
-    {{ form_row(form.files) }}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('css/figure_details.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/edit_figure.css') }}">
 
-    <ul class="videos" data-prototype="{{ form_row(form.videos.vars.prototype)|e('html_attr') }}">
-        {% for video in form.videos %}
-            <li>{{ form_row(video.link) }}</li>
-        {% endfor %}
-    </ul>
-    <button type="button" class="add_item_link" data-collection-holder-class="videos">champs supplémentaire</button>
+    {% endblock %}
 
-    <input class="btn btn-primary" type="submit" value="Valider">
+    <section>
+        <div class="container">
+            {{ form_start(form) }}
+
+            <div id="image_top_show" class="row mb-2 img-thumbnail"
+                 style="background-image:url('{{ asset('uploads/figures/') }}{{ figure.images.first.name }}')">
+                <div class="row offset-sm-10 offset-md-10 offset-lg-11">
+                    {# TODO fini edition et supprission #}
+
+                    {% if app.user %}
+                        <a href="{{ path('app_edit_image', {'id': figure.images[0].id}) }}#edit">
+                            <button type="button" class="fas fa-pencil-alt ">
+                            </button>
+                        </a>
+
+                        <button type="button" class="fas fa-trash js-button-delete-trick"
+                                data-href="{{ path('app_image_deleted', {'id': figure.images[0].id}) }}">
+                        </button>
+                    {% endif %}
+                </div>
+
+                <h1> {{ form_row(form.name) }} </h1>
+
+            </div>
+            <div class="row">
+                {% for image in figure.images %}
+                    <div class="col-sm-6 col-md-12 col-lg-2 pt-4 pb-4 js-trick-media d-none "
+                         data-edit-image="{{ path('app_edit_image',{'id':image.id}) }}"
+                         data-delete-image="{{ path('app_image_deleted',{'id':image.id}) }}">
+                        <img class="img-fluid h-100 w-100"
+                             src="{{ asset('uploads/figures/'~image.name) }}"
+                             alt="{{ asset('uploads/figures/'~image.name) }}">
+
+                        <div class="text-right ">
+                            {% if app.user %}
+                                <a href="{{ path('app_edit_image', {'id': image.id}) }}#edit">
+                                    <button type="button" class="fas fa-pencil-alt ">
+                                    </button>
+                                </a>
+
+                                <button type="button" class="fas fa-trash js-button-delete-trick"
+                                        data-href="{{ path('app_image_deleted', {'id': image.id}) }}">
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                {% endfor %}
+                {% for video in figure.videos %}
+                    <div class="col-sm-6 col-md-12 col-lg-2 js-trick-media d-none">
+                        <iframe class="w-100 "
+                                src="{{ video.link }}"
+                                frameborder="0" allow="autoplay; encrypted-media"
+                                allowfullscreen>
+                        </iframe>
+                        <div class="text-right ">
+                            {% if app.user %}
+                                <a href="{{ path('app_edit_video', {'id': video.id}) }}#edit">
+                                    <button type="button" class="fas fa-pencil-alt ">
+                                    </button>
+                                </a>
+
+                                <button type="button" class="fas fa-trash js-button-delete-trick"
+                                        data-href="{{ path('app_deleted_video', {'id': video.id}) }}">
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row pt-4">
+                <div class="col-12 text-center">
+                    <button class=" btn btn-primary js-add-more-medias " type="button">Voir plus</button>
+                </div>
+            </div>
+            {{ form_row(form.files) }}
+            <div class="col-ms-12 col-md-12 col-lg-6">
+                <ul class="videos" data-prototype="{{ form_row(form.videos.vars.prototype)|e('html_attr') }}">
+                    {% for video in form.videos %}
+                        <li>{{ form_row(video.link) }}</li>
+                    {% endfor %}
+                </ul>
+                <button type="button" class="add_item_link" data-collection-holder-class="videos">ajouter une vidéo
+                </button>
+            </div>
+            <p class="h-md-2 lh-1 content_edit">
+                {{ form_row(form.content) }}
+            </p>
+        </div>
+    </section>
+
+
+    <div class="container">
+        <div class="row d-flex justify-content-around pb-5">
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                {{ form_row(form.category) }}
+            </div>
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                date de création:
+            </div>
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                date de modification:
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="btn btn-warning" href="{{ path('app_deleted_figure', {'id': figure.id}) }}">Supprimer</a>
+                <input class="btn btn-primary" type="submit" value="Valider">
+            </div>
+
+        </div>
+    </div>
+
+
 
     {{ form_end(form) }}
+
+
 {% endblock %}
+
+    {% block javascripts %}
+        <script src="{{ asset('js/editPage.js') }}"></script>
+        <script src="{{ asset('js/formCollection.js') }}"></script>
+    {% endblock %}
 
 
 

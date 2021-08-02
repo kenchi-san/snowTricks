@@ -135,10 +135,9 @@ class FigureController extends AbstractController
             $manager->persist($figure);
             $manager->flush();
             $this->addFlash('success', 'la figure à bien été édité');
-            return $this->redirectToRoute("app_edit_figure", ['id' => $figure->getId()]);
+            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId()]);
         }
-//        return $this->redirectToRoute('app_homePage');
-        return $this->render('figure/editFigure.html.twig', ['form' => $form->createView()]);
+        return $this->render('figure/editFigure.html.twig', ['form' => $form->createView(),'figure'=>$figure]);
 
     }
 }

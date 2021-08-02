@@ -1,0 +1,42 @@
+div#image_top_show {
+    height: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-clip: content-box;
+    background-position: center;
+    position: relative;
+}
+
+#image_top_show >.row {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+}
+#image_top_show >h1{
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#image_top_show > div.row {
+    height: max-content;
+}
+
+section > div.container {
+    margin-top: -23rem;
+}
+
+#avatar_comment {
+    height: 52px;
+    padding-right: 15px;
+}
+
+.js_media_show_more {
+    height: 9rem;
+    background-size: cover
+}
+

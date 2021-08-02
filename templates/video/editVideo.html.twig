@@ -1,14 +1,32 @@
 {% extends 'base.html.twig' %}
+{% block title %}édition de la vidéo{% endblock %}
 
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_row(form.link) }}
-{#    <ul class="videos" data-prototype="{{ form_row(form.videos.vars.prototype)|e('html_attr') }}">#}
-{#        {% for video in form.videos %}#}
-{#            <li>{{ form_row(video.link) }}</li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-    <input class="btn btn-primary" type="submit" value="Valider">
-    {{ form_end(form) }}
+
+    <div class="container flex center v-center full-height ">
+        <div class="col-sm-12 offset-lg-1 col-lg-4 col-md-12 ">
+            <div class="form-box">
+                <h1>Votre vidéo</h1>
+
+                <iframe class="w-100"
+                        src="{{ video.link }}"
+                        frameborder="0" allow="autoplay; encrypted-media"
+                        allowfullscreen>
+                </iframe>
+
+                {{ form_start(form) }}
+
+                {{ form_row(form.link) }}
+                <input class="btn btn-primary" type="submit" value="Valider">
+                <a href="{{ path('app_edit_figure', {'id': video.figure.id}) }}">
+                    <input class="btn btn-primary" type="text" value="Retour à la page d'édition">
+                </a>
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
