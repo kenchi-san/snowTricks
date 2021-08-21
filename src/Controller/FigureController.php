@@ -61,19 +61,24 @@ class FigureController extends AbstractController
     public function list(FigureRepository $figureRepository): Response
     {
         $figures = $figureRepository->findAll();
-
         return $this->render('pages/homePage.html.twig', ['figures' => $figures]);
     }
 
     /**
-     * @Route("/show/figure/{id}",name="app_show_figure")
+     * @Route("/show/figure/{id}/{slug}",name="app_show_figure")
      * @param Figure $figure
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param string $slug
      * @return Response
      */
-    public function show(Figure $figure, Request $request, EntityManagerInterface $manager): Response
+    public function show(Figure $figure, Request $request, EntityManagerInterface $manager, string $slug): Response
     {
+
+        if ($slug !== $figure->getSlug()) {
+            return $this->redirectToRoute('app_show_figure', ['id' => $figure->getId(), 'slug' => $figure->getSlug()]);
+        }
+
         $myComment = new Comment();
         $form = $this->createForm(CommentType::class, $myComment);
         $form->handleRequest($request);
@@ -96,7 +101,7 @@ class FigureController extends AbstractController
      * @param FileUploader $fileUploader
      * @return RedirectResponse
      */
-    public function deleted(Figure $figure,EntityManagerInterface $manager, FileUploader $fileUploader): RedirectResponse
+    public function deleted(Figure $figure, EntityManagerInterface $manager, FileUploader $fileUploader): RedirectResponse
     {
 
         $manager->remove($figure);
@@ -137,7 +142,7 @@ class FigureController extends AbstractController
             $this->addFlash('success', 'la figure à bien été édité');
             return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId()]);
         }
-        return $this->render('figure/editFigure.html.twig', ['form' => $form->createView(),'figure'=>$figure]);
+        return $this->render('figure/editFigure.html.twig', ['form' => $form->createView(), 'figure' => $figure]);
 
     }
 }
