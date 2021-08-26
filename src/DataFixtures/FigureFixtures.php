@@ -76,8 +76,8 @@ class FigureFixtures extends Fixture
             $figure->setContent($listeFigure['contents']);
             $figure->addVideo($video->setLink($listeFigure['links'][$keyLink]));
 
-            $filesystem->copy(__DIR__."/data/image/picture_default.PNG",__DIR__."/data/image/fixture_img.png");
-            $file = new UploadedFile(__DIR__."/data/image/fixture_img.png","fixture",null,null,true);
+            $filesystem->copy(__DIR__ . "/data/image/picture_default.PNG", __DIR__ . "/data/image/fixture_img.png");
+            $file = new UploadedFile(__DIR__ . "/data/image/fixture_img.png", "fixture", null, null, true);
 
             $filename = $this->fileUploader->upload($file);
             $image->setName($filename);
@@ -89,9 +89,12 @@ class FigureFixtures extends Fixture
         }
 
         $manager->flush();
+        $filesystem = new Filesystem();
+
+        $filesystem->copy(__DIR__ . "/data/image/picture.jpg", __DIR__ . "/data/image/firstPicture.jpg",false);
+        $file = new UploadedFile(__DIR__ . "/data/image/firstPicture.jpg", "firstPicture", null, null, true);
+        $file->move( "public/uploads/figures","firstPicture.jpg");
     }
-
-
 
 
 }
