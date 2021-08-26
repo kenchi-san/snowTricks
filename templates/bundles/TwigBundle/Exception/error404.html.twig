@@ -1,0 +1,10 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="center pt-5">OUPS ERREUR 404!</h1>
+
+    <p class="center pt-5" style="height:100%;">
+        L'url fournit n'est pas valide: <a href="{{ path('app_homePage') }}">retourner sur la page d'accueil</a>.
+    </p>
+{% endblock %}
