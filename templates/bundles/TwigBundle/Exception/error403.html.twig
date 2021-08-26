@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="center">OUPS ERREUR 403!</h1>
+
+    <p class="center h-50">
+        L'accès à cette page n'est pas autorisé <a href="{{ path('app_homePage') }}">retourner sur la page d'accueil</a>.
+    </p>
+{% endblock %}
