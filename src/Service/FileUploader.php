@@ -6,12 +6,17 @@ namespace App\Service;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FileUploader
 {
     private $targetDirectory;
     private $slugger;
 
+    /**
+     * @param $targetDirectory
+     * @param SluggerInterface $slugger
+     */
     public function __construct($targetDirectory, SluggerInterface $slugger)
     {
         $this->targetDirectory = $targetDirectory;
@@ -22,19 +27,19 @@ class FileUploader
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-
-        try {
+        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+        dump($this->getTargetDirectory());
+//        try {
             $file->move($this->getTargetDirectory(), $fileName);
-        } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
-        }
-
+//        } catch (FileException $e) {
+//            echo ('foiré');
+// TODO handle exception if something happens during file upload
+//        }
         return $fileName;
     }
 
     /**
-     * @param $images
+     * @param array $images
      */
     public function remove(array $images)
     {

@@ -89,7 +89,7 @@ class FigureController extends AbstractController
             $figure->addComment($myComment);
             $manager->persist($figure);
             $manager->flush();
-            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId()]);
+            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId(),'slug'=>$figure->getSlug()]);
         }
         return $this->render("figure/showFigure.html.twig", ['figure' => $figure, 'form' => $form->createView()]);
     }
@@ -140,7 +140,7 @@ class FigureController extends AbstractController
             $manager->persist($figure);
             $manager->flush();
             $this->addFlash('success', 'la figure à bien été édité');
-            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId()]);
+            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId(),'slug'=>$figure->getSlug()]);
         }
         return $this->render('figure/editFigure.html.twig', ['form' => $form->createView(), 'figure' => $figure]);
 
