@@ -77,12 +77,9 @@ class FigureFixtures extends Fixture
             $figure->addVideo($video->setLink($listeFigure['links'][$keyLink]));
 
             $filesystem->copy(__DIR__."/data/image/picture_default.PNG",__DIR__."/data/image/fixture_img.png");
-            $file = new UploadedFile(__DIR__."/data/image/fixture_img.png","toto",null,null,false);
+            $file = new UploadedFile(__DIR__."/data/image/fixture_img.png","fixture",null,null,true);
 
-//            $filesystem->copy(__DIR__."/data/image/picture_default.PNG", __DIR__."/data/image/fixture_img.png",false);
-//            $file = new UploadedFile(__DIR__."/data/image/fixture_img.png", 'fixture', null, null,false);
             $filename = $this->fileUploader->upload($file);
-//            $filename = "picture_default.PNG";
             $image->setName($filename);
             $figure->addImage($image);
 

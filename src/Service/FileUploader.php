@@ -27,14 +27,14 @@ class FileUploader
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-        dump($this->getTargetDirectory());
-//        try {
+        $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+        try {
             $file->move($this->getTargetDirectory(), $fileName);
-//        } catch (FileException $e) {
-//            echo ('foiré');
+        } catch (FileException $e) {
+            echo('error to move file');
 // TODO handle exception if something happens during file upload
-//        }
+        }
         return $fileName;
     }
 
