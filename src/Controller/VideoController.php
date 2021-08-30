@@ -29,7 +29,7 @@ class VideoController extends AbstractController
             $this->addFlash('success', 'la vidéo à bien été modifié');
             return $this->redirectToRoute("app_edit_video", ['id' => $video->getId()]);
         }
-        return $this->render('video/editVideo.html.twig', ['form' => $form->createView()]);
+        return $this->render('video/editVideo.html.twig', ['form' => $form->createView(),"video"=>$video]);
     }
 
     /**
