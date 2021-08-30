@@ -82,8 +82,6 @@ class FigureFixtures extends Fixture
             $filename = $this->fileUploader->upload($file);
             $image->setName($filename);
             $figure->addImage($image);
-
-
             $manager->persist($video);
             $manager->persist($figure);
         }
@@ -91,9 +89,9 @@ class FigureFixtures extends Fixture
         $manager->flush();
         $filesystem = new Filesystem();
 
-        $filesystem->copy(__DIR__ . "/data/image/picture.jpg", __DIR__ . "/data/image/firstPicture.jpg",false);
+        $filesystem->copy(__DIR__ . "/data/image/picture.jpg", __DIR__ . "/data/image/firstPicture.jpg", false);
         $file = new UploadedFile(__DIR__ . "/data/image/firstPicture.jpg", "firstPicture", null, null, true);
-        $file->move( "public/uploads/figures","firstPicture.jpg");
+        $file->move("public/uploads/figures", "firstPicture.jpg");
     }
 
 

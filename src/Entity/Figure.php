@@ -35,6 +35,7 @@ class Figure
 //TODO image obligatoire
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="figure", orphanRemoval=true,cascade={"persist"})
+     *
      */
     private $images;
 
@@ -54,12 +55,22 @@ class Figure
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->comments = new ArrayCollection();
-
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getId(): ?int
@@ -70,7 +81,7 @@ class Figure
     public function getSlug(): string
     {
         $slugger = new AsciiSlugger();
-        return $slugger->slug($this->getName(),"-");
+        return $slugger->slug($this->getName(), "-");
     }
 
     public function getName(): ?string
@@ -199,4 +210,37 @@ class Figure
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @param mixed $updated_at
+     */
+    public function setUpdatedAt( $updated_at): void
+    {
+        $this->updated_at = $updated_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @param mixed $created_at
+     */
+    public function setCreatedAt($created_at): void
+    {
+        $this->created_at = $created_at;
+    }
+
 }

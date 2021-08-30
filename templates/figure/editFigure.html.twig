@@ -107,11 +107,19 @@
                 {{ form_row(form.category) }}
             </div>
             <div class="shadow p-3 mb-5 bg-white rounded">
-                date de création:
+                date de création: <br>
+                {{ figure.createdAt | date("d/m/Y") }} à {{ figure.createdAt | date("G:i") }}
             </div>
-            <div class="shadow p-3 mb-5 bg-white rounded">
-                date de modification:
-            </div>
+            {% if figure.updatedAt == null %}
+                <div class="shadow p-3 mb-5 bg-white rounded">
+                    non modifier
+                </div>
+            {% else %}
+                <div class="shadow p-3 mb-5 bg-white rounded">
+                    Modifier le: <br>
+                    {{ figure.updatedAt | date("d/m/Y") }} à {{ figure.updatedAt | date("G:i") }}
+                </div>
+            {% endif %}
 
         </div>
         <div class="row">
