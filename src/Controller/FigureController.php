@@ -41,7 +41,7 @@ class FigureController extends AbstractController
                 $image->setName($fileUploader->upload($file));
                 $figure->addImage($image);
             }
-
+            $figure->getUpdatedAt(new \ DateTime());
             $manager->persist($figure);
 
             $manager->flush();
@@ -89,7 +89,7 @@ class FigureController extends AbstractController
             $figure->addComment($myComment);
             $manager->persist($figure);
             $manager->flush();
-            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId(),'slug'=>$figure->getSlug()]);
+            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId(), 'slug' => $figure->getSlug()]);
         }
         return $this->render("figure/showFigure.html.twig", ['figure' => $figure, 'form' => $form->createView()]);
     }
@@ -122,13 +122,12 @@ class FigureController extends AbstractController
     public function edit(Figure $figure, EntityManagerInterface $manager, Request $request, FileUploader $fileUploader)
     {
         if (!$this->getUser()) {
-            $this->addFlash('danger', 'Veuillez vous identifier pour ajouter une figure');
+            $this->addFlash('danger', 'Veuillez vous identifier pour éditer une figure');
             return $this->redirectToRoute('app_homePage');
         }
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
 
             $files = $form->get('files')->getData();
             foreach ($files as $file) {
@@ -136,11 +135,12 @@ class FigureController extends AbstractController
                 $image->setName($fileUploader->upload($file));
                 $figure->addImage($image);
             }
-
+            $figure->setUpdatedAt(new \DateTime());
             $manager->persist($figure);
+
             $manager->flush();
             $this->addFlash('success', 'la figure à bien été édité');
-            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId(),'slug'=>$figure->getSlug()]);
+            return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId(), 'slug' => $figure->getSlug()]);
         }
         return $this->render('figure/editFigure.html.twig', ['form' => $form->createView(), 'figure' => $figure]);
 

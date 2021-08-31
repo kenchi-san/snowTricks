@@ -19,6 +19,16 @@ class FigureRepository extends ServiceEntityRepository
         parent::__construct($registry, Figure::class);
     }
 
+//    public function findAllDesc()
+//    {
+//        return $this->createQueryBuilder('f')
+//            ->where('f.created_at')
+////            ->setParameter('id', $)
+//            ->orderBy('f.created_at', 'DESC')
+//            ->getQuery()
+//            ->getResult();
+//
+//    }
     // /**
     //  * @return Figure[] Returns an array of Figure objects
     //  */

@@ -62,19 +62,23 @@
         </div>
     </section>
 
-
     <div class="container">
         <div class="row d-flex justify-content-around pb-5">
             <div class="shadow p-3 mb-5 bg-white rounded">
-                {{ figure.category.name }}
+               Catégorie de la figure: {{ figure.category.name }}
             </div>
             <div class="shadow p-3 mb-5 bg-white rounded">
-                date de création
+                date de création: {{ figure.createdAt | date("d/m/Y") }} à {{ figure.createdAt | date("G:i") }}
             </div>
-            <div class="shadow p-3 mb-5 bg-white rounded">
-                date de modification
-            </div>
-
+            {% if figure.updatedAt == null %}
+                <div class="shadow p-3 mb-5 bg-white rounded">
+                    non modifier
+                </div>
+            {% else %}
+                <div class="shadow p-3 mb-5 bg-white rounded">
+                     Modifier le: {{ figure.updatedAt | date("d/m/Y") }} à {{ figure.updatedAt | date("G:i") }}
+                </div>
+            {% endif %}
         </div>
         <div class="card">
             <div class="card-header">

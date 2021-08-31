@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +38,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -46,8 +50,10 @@ class RegistrationController extends AbstractController
             );
             $user->setIsVerified(0);
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
 
             $email = (new TemplatedEmail())
                 ->from(new Address('charon.hugo@yahoo.fr', 'snowtrick'))

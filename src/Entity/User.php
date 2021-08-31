@@ -10,15 +10,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-//TODO unicité sur le mail à faire
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  * @UniqueEntity(fields={"userName"},message="Nom d'utilisateur déjà utilisé")
- *
+ * @UniqueEntity(fields={"email"},message="le mail est déjà utilisé")
  */
 class User implements UserInterface
 {
+//    TODO problème pour réinitialiser le mot de passe a cause de l'unicité'
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -59,10 +59,6 @@ class User implements UserInterface
      */
     private $userName;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $avatar;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
@@ -199,17 +195,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(?string $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Comment[]
@@ -232,7 +217,6 @@ class User implements UserInterface
     public function removeComment(Comment $comment): self
     {
         if ($this->comment->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
             }
