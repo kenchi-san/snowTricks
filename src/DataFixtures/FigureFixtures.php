@@ -27,7 +27,7 @@ class FigureFixtures extends Fixture
         $this->fileUploader = $fileUploader;
     }
 
-    const NB_FIXTURE = 10;
+    const NB_FIXTURE = 1;
 
     /**
      * @throws \Exception
@@ -87,11 +87,6 @@ class FigureFixtures extends Fixture
         }
 
         $manager->flush();
-        $filesystem = new Filesystem();
-
-        $filesystem->copy(__DIR__ . "/data/image/picture.jpg", __DIR__ . "/data/image/firstPicture.jpg", false);
-        $file = new UploadedFile(__DIR__ . "/data/image/firstPicture.jpg", "firstPicture", null, null, true);
-        $file->move("public/uploads/figures", "firstPicture.jpg");
     }
 
 
