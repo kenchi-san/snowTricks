@@ -60,7 +60,7 @@ class FigureController extends AbstractController
      */
     public function list(FigureRepository $figureRepository): Response
     {
-        $figures = $figureRepository->findAll();
+        $figures = $figureRepository->findAllDesc();
         return $this->render('pages/homePage.html.twig', ['figures' => $figures]);
     }
 
