@@ -27,7 +27,7 @@ class FigureFixtures extends Fixture
         $this->fileUploader = $fileUploader;
     }
 
-    const NB_FIXTURE = 1;
+    const NB_FIXTURE = 20;
 
     /**
      * @throws \Exception
