@@ -55,8 +55,7 @@ class SecurityController extends AbstractController
      */
     public function initResetPassword(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
-        $user = new User();
-        $form = $this->createForm(ResetPasswordType::class, $user);
+        $form = $this->createForm(ResetPasswordType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $form->get('email')->getData()]);
