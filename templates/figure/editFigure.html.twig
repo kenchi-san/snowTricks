@@ -35,7 +35,7 @@
             </div>
             <div class="row">
                 {% for image in figure.images %}
-                    <div class="col-sm-6 col-md-12 col-lg-2 pt-4 pb-4 js-trick-media d-none "
+                    <div class="col-sm-6 col-md-12 col-lg-2 js-trick-media d-none "
                          data-edit-image="{{ path('app_edit_image',{'id':image.id}) }}"
                          data-delete-image="{{ path('app_image_deleted',{'id':image.id}) }}">
                         <img class="img-fluid h-100 w-100"
@@ -44,14 +44,16 @@
 
                         <div class="text-right ">
                             {% if app.user %}
-                                <a href="{{ path('app_edit_image', {'id': image.id}) }}#edit">
-                                    <button type="button" class="fas fa-pencil-alt ">
-                                    </button>
+                                <a href="{{ path('app_edit_image', {'id': image.id}) }}#edit"
+                                   class="btn btn-secondary btn-sm">
+                                    <i class="fas fa-pencil-alt "></i>
                                 </a>
 
-                                <button type="button" class="fas fa-trash js-button-delete-trick"
-                                        data-href="{{ path('app_image_deleted', {'id': image.id}) }}">
-                                </button>
+                                <a class="btn btn-secondary btn-sm"
+                                   onclick="return confirm('Voulez-vous supprimer ce meia')"
+                                        href="{{ path('app_image_deleted', {'id': image.id}) }}">
+                                <i class="fas fa-trash"></i>
+                                </a>
                             {% endif %}
                         </div>
                     </div>
