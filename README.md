@@ -4,10 +4,16 @@
 
 symfony php bin/phpunit --testdox
 environnement de test <br>
-composer require --dev dama/doctrine-test-bundle <br>
-composer require symfony/twig-pack <br>
-composer require symfony/filesystem <br>
-php bin/console doctrine:fixtures:load <br>
-symfony console make twig-extension <br>
-composer show twig/twig <br>
-composer require symfony/string <br>
+composer require --dev dama/doctrine-test-bundle 
+composer require symfony/twig-pack 
+composer require symfony/filesystem 
+php bin/console doctrine:fixtures:load 
+php bin/console console make twig-extension 
+composer show twig/twig 
+composer require symfony/string
+composer require symfony/orm-pack
+composer require --dev symfony/maker-bundle
+composer require --dev orm-fixtures
+composer require doctrine/annotations
+composer require symfony/twig-pack
+composer require symfony/apache-pack
