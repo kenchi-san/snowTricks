@@ -30,6 +30,10 @@ class FigureController extends AbstractController
      */
     public function add(EntityManagerInterface $manager, Request $request, FileUploader $fileUploader)
     {
+        if (!$this->getUser()) {
+            $this->addFlash('danger', 'Veuillez vous identifier pour éditer une figure');
+            return $this->redirectToRoute("app_login");
+        }
         $figure = new Figure();
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
@@ -103,7 +107,10 @@ class FigureController extends AbstractController
      */
     public function deleted(Figure $figure, EntityManagerInterface $manager, FileUploader $fileUploader): RedirectResponse
     {
-
+        if (!$this->getUser()) {
+            $this->addFlash('danger', 'Veuillez vous identifier pour éditer une figure');
+            return $this->redirectToRoute("app_login");
+        }
         $manager->remove($figure);
         $manager->flush();
         $fileUploader->remove($figure->getImages()->getValues());
@@ -123,7 +130,7 @@ class FigureController extends AbstractController
     {
         if (!$this->getUser()) {
             $this->addFlash('danger', 'Veuillez vous identifier pour éditer une figure');
-            return $this->redirectToRoute('app_homePage');
+            return $this->redirectToRoute('app_login');
         }
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
