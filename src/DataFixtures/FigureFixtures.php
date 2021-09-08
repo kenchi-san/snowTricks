@@ -3,16 +3,20 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Figure;
 use App\Entity\Image;
+use App\Entity\User;
 use App\Entity\Video;
 use App\Service\FileUploader;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FigureFixtures extends Fixture
+
+class FigureFixtures extends Fixture implements DependentFixtureInterface
 {
     /**
      * @var FileUploader
@@ -28,6 +32,7 @@ class FigureFixtures extends Fixture
     }
 
     const NB_FIXTURE = 20;
+    const NB_COMMENT = 10;
 
     /**
      * @throws \Exception
@@ -40,10 +45,16 @@ class FigureFixtures extends Fixture
             "categories" => ['rider', 'Les grabs', 'Les rotations', 'Les flips', 'Les rotations désaxées', 'Les Slides', ' Les one foot tricks', 'Old School'],
             "links" => ['https://www.youtube.com/embed/M_BOfGX0aGs', 'https://www.youtube.com/embed/mTFMakbP0xw', 'https://www.youtube.com/embed/t705_V-RDcQ', 'https://www.youtube.com/embed/AzJPhQdTRQQ'],
             "contents" => "A ab accusamus, alias aliquid amet assumenda consequuntur deserunt, doloremque ducimus eius eos ex facere, facilis
-    inventore ipsam iure necessitatibus numquam perferendis quasi quibusdam quis similique tenetur vel veritatis vero? Aliquid animi aut commodi delectus dolorum ducimus excepturi, facilis fugiat ipsum magnam nam officia pariatur
-    praesentium quaerat, ratione ullam, unde. Culpa labore neque nostrum quisquam saepe sit tempore ut. Voluptatem. A ab accusamus, alias aliquid amet assumenda consequuntur deserunt, doloremque ducimus eius eos ex facere, facilis
-    inventore ipsam iure necessitatibus numquam perferendis quasi quibusdam quis similique tenetur vel veritatis vero? Aliquid animi aut commodi delectus dolorum ducimus excepturi, facilis fugiat ipsum magnam nam officia pariatur
-    praesentium quaerat, ratione ullam, unde. Culpa labore neque nostrum quisquam saepe sit tempore ut. Voluptatem."];
+    inventore ipsam iure necessitatibus numquam perferendis quasi quibusdam quis similique tenetur vel veritatis vero? Aliquid animi aut commodi 
+    delectus dolorum ducimus excepturi, facilis fugiat ipsum magnam nam officia pariatur
+    praesentium quaerat, ratione ullam, unde. Culpa labore neque nostrum quisquam saepe sit 
+    tempore ut. Voluptatem. A ab accusamus, alias aliquid amet assumenda consequuntur deserunt, 
+    doloremque ducimus eius eos ex facere, facilis inventore ipsam iure necessitatibus numquam 
+    perferendis quasi quibusdam quis similique tenetur vel veritatis vero? Aliquid animi aut commodi
+     delectus dolorum ducimus excepturi, facilis fugiat psum magnam nam officia pariatur
+    praesentium quaerat, ratione ullam, unde. Culpa labore neque nostrum quisquam saepe sit tempore ut. Voluptatem.",
+            "comment" => 'commentaire n°'
+        ];
 
         $MAX_LINKS = count($listeFigure['links']);
 
@@ -82,12 +93,30 @@ class FigureFixtures extends Fixture
             $filename = $this->fileUploader->upload($file);
             $image->setName($filename);
             $figure->addImage($image);
+
+
+
             $manager->persist($video);
             $manager->persist($figure);
         }
+        $manager->flush();
 
+        for ($i = 1; $i <= self::NB_COMMENT; $i++) {
+            $comment = new Comment();
+            $comment->setContent($listeFigure['comment'] . $i);
+            /** @var User $user */
+            $user = $this->getReference('user0');
+            $comment->setUser($user);
+            $comment->setFigure($figure);
+            $manager->persist($comment);
+        }
         $manager->flush();
     }
 
-
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+        ];
+    }
 }
