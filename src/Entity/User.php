@@ -18,7 +18,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
-//    TODO problème pour réinitialiser le mot de passe a cause de l'unicité'
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
