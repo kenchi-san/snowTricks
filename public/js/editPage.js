@@ -20,11 +20,11 @@ allMediasContainers.forEach((container) => {
 
 function btnShowMoreMedia() {
     if (document.querySelectorAll(".js-trick-media.d-none").length === 0) {
-        showMoreMediaBtn.classList.add('d-none');
+        showMoreMediaBtn.classList.add("d-none");
     } else {
         showMoreMediaBtn.addEventListener("click", () => {
             if (document.querySelectorAll(".js-trick-media.d-none").length === 0) {
-                showMoreMediaBtn.classList.add('d-none');
+                showMoreMediaBtn.classList.add("d-none");
             }
             showMoreMedia();
         })
