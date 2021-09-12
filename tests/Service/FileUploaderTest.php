@@ -13,6 +13,7 @@ class FileUploaderTest extends TestCase
 
     public function testRemove()
     {
+
         $uploader = new FileUploader("D:\wamp64\www\snowTricks/public/uploads/figures", $this->createMock(AsciiSlugger::class));
 
         $filesystem = new Filesystem();
@@ -24,22 +25,5 @@ class FileUploaderTest extends TestCase
 
 
     }
-
-//    public function testUpload()
-//    {
-//        $filesystem = new Filesystem();
-//        $uploader = new FileUploader("D:\wamp64\www\snowTricks/tests/data/image/", $this->createMock(AsciiSlugger::class));
-
-//        $filesystem->copy("D:\wamp64\www\snowTricks/tests/data/image/picture_default.PNG", "D:\wamp64\www\snowTricks/tests/data/image/test_img.png");
-
-//        $file = new UploadedFile("D:\wamp64\www\snowTricks/tests/data/image/test_img.png", "test", null, null, true);
-
-//        $fileName = $file->getClientOriginalName();
-//        dd($fileName);
-//        $uploader->upload("test");
-//        $this->assertFileExists($file);
-//        $filesystem->remove("D:\wamp64\www\snowTricks/public/uploads/figures/test_img.png");
-
-//    }
 
 }
