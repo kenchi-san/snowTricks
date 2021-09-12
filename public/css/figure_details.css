@@ -11,17 +11,19 @@ div#image_top_show {
     position: relative;
 }
 
-#image_top_show >.row {
+#image_top_show > .row {
     position: absolute;
     top: 5px;
     right: 20px;
 }
-#image_top_show >h1{
+
+#image_top_show > h1 {
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 10px;
     padding-left: 10px;
     padding-right: 10px;
 }
+
 #image_top_show > div.row {
     height: max-content;
 }
@@ -37,6 +39,6 @@ section > div.container {
 
 .js_media_show_more {
     height: 9rem;
-    background-size: cover
+    background-size: cover;
 }
 
