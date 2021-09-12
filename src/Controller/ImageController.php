@@ -25,6 +25,10 @@ class ImageController extends AbstractController
      */
     public function edit(Image $image, Request $request, EntityManagerInterface $manager, FileUploader $fileUploader): Response
     {
+        if (!$this->getUser()) {
+            $this->addFlash('danger', 'Veuillez vous identifier pour éditer l\'image');
+            return $this->redirectToRoute("app_login");
+        }
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,6 +55,10 @@ class ImageController extends AbstractController
      */
     public function deleted(Image $image,FileUploader $fileUploader, EntityManagerInterface $manager):Response
     {
+        if (!$this->getUser()) {
+            $this->addFlash('danger', 'Veuillez vous identifier pour supprimer l\'image');
+            return $this->redirectToRoute("app_login");
+        }
         $manager->remove($image);
         $manager->flush();
         $fileUploader->remove(['image'=>$image->getName()]);

@@ -21,13 +21,14 @@ class UserFixtures extends Fixture
         for ($i = 0; $i <= 3; $i++) {
             $user = new User();
 
-            $user->setUserName('user'.$i);
+            $user->setUserName('user' . $i);
             $user->setIsVerified(true);
-            $user->setEmail("bibi".$i."@hotmail.fr");
+            $user->setEmail("bibi" . $i . "@hotmail.fr");
             $user->setRoles(['ROLE_USER']);
             $user->setPassword($this->passwordEncoder->encodePassword($user, 'bibi'));
             $manager->persist($user);
             $manager->flush();
+            $this->addReference($user->getUsername(), $user);
         }
     }
 }

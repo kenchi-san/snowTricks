@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Comment;
+use App\Entity\Figure;
 use App\Form\CommentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -24,7 +25,7 @@ class CommentController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @IsGranted("COMMENT_EDIT", subject="comment")
      */
-    public function edit(Comment $comment, Request $request, EntityManagerInterface $manager): Response
+    public function edit(Figure $figure,Comment $comment, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -32,7 +33,7 @@ class CommentController extends AbstractController
             $manager->persist($comment);
             $manager->flush();
             $this->addFlash('success', 'le commentaire à bien été modifié');
-            return $this->redirectToRoute("app_show_figure", ['id' => $comment->getFigure()->getId()]);
+            return $this->redirectToRoute("app_show_figure", ['id' => $comment->getFigure()->getId(),'slug' => $figure->getSlug()]);
         }
             return $this->render("comment/edit.html.twig", ['comment' => $comment, 'form' => $form->createView()]);
     }
@@ -44,12 +45,12 @@ class CommentController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @IsGranted("COMMENT_DELETE", subject="comment")
      */
-    public function deleted(Comment $comment, EntityManagerInterface $manager): Response
+    public function deleted(Figure $figure, Comment $comment, EntityManagerInterface $manager): Response
     {
         $manager->remove($comment);
         $manager->flush();
         $this->addFlash('success', 'commentaire supprimé');
-        return $this->redirectToRoute("app_show_figure", ['id' => $comment->getFigure()->getId()]);
+        return $this->redirectToRoute("app_show_figure", ['id' => $comment->getFigure()->getId(),'slug' => $figure->getSlug()]);
 
     }
 }
