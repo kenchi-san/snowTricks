@@ -14,7 +14,7 @@ class FigureControllerTest extends WebTestCase
 
 
     /**
-     * @dataFigureProvider urlProvider
+     * @dataProvider urlProvider
      */
     public function testPageIsSuccessfulWhenConnected($url, $expectedStatus)
     {
@@ -46,7 +46,7 @@ class FigureControllerTest extends WebTestCase
     }
 
     /**
-     * @dataFigureProvider urlProviderTest
+     * @dataProvider urlProviderTest
      */
     public function testPageIsSuccessfulWhenNoConnected($url, $expectedStatus, $expectedRedirect = null)
     {
@@ -82,22 +82,22 @@ class FigureControllerTest extends WebTestCase
     }
 
 
-    public function testaddFigureWhenConnected()
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/add/figure');
-        $buttonCrawlerNode = $crawler->selectButton('valider');
-        $form = $buttonCrawlerNode->form();
-        $form['figure[name]'] = "figure numéro 1";
-        $form['figure[content]'] = "contenu balbablablalbalbalb";
-        $form['figure[category]']->select("rotation");
-        $form['figure[files][0]']->upload("picture1.png");
-        $form['figure[files][1]']->upload("picture2.png");
-        $form['figure[videos][1][link]']="https://www.youtube.com/embed/Gpbzcjwek_c";
-        $form['figure[videos][2][link]']="https://www.youtube.com/embed/Gpbzcjwek_c";
-        $client->submit($form);
-
-       $this->assertResponseIsSuccessful( $message = 'la figure à bien été ajouté');
+//    public function testaddFigureWhenConnected()
+//    {
+//        $client = static::createClient();
+//        $crawler = $client->request('GET', '/add/figure');
+//        $buttonCrawlerNode = $crawler->selectButton('valider');
+//        $form = $buttonCrawlerNode->form();
+//        $form['figure[name]'] = "figure numéro 1";
+//        $form['figure[content]'] = "contenu balbablablalbalbalb";
+//        $form['figure[category]']->select("rotation");
+//        $form['figure[files][0]']->upload("picture1.png");
+//        $form['figure[files][1]']->upload("picture2.png");
+//        $form['figure[videos][1][link]']="https://www.youtube.com/embed/Gpbzcjwek_c";
+//        $form['figure[videos][2][link]']="https://www.youtube.com/embed/Gpbzcjwek_c";
+//        $client->submit($form);
+//
+//       $this->assertResponseIsSuccessful( $message = 'la figure à bien été ajouté');
 
 //        $crawler = $client->submitForm('valider');
 //        $figure = new Figure();
@@ -114,7 +114,7 @@ class FigureControllerTest extends WebTestCase
 //
 //        $link->setFigure($figure);
 //        $link->setLink($video);
-    }
+//    }
 
 
 //    public function dataFigureProvider()
