@@ -3,8 +3,8 @@ left to right direction
 actor Member as M
 actor User as U
 package Application {
-  usecase " se loguer" as SL
-  usecase "deconnection" as D
+  usecase "se connecter" as SL
+  usecase "se déconnecter" as D
   usecase "s'enregistrer" as E
 
   usecase "creation d'une figure" as CF
@@ -23,7 +23,7 @@ package Application {
   usecase "supprimer le commentaire" as SC
 
 }
-M-->SL
+U-->SL
 M-->D
 M-->AI
 M-->MI
