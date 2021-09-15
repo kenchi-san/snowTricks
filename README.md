@@ -1,47 +1,51 @@
 # snowTricks
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/55b078bdfdd4492d8625abffa511f9a8)](https://www.codacy.com/gh/kenchi-san/snowTricks/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kenchi-san/snowTricks&amp;utm_campaign=Badge_Grade)
-##installation
-Use all packages below
+
+## Description
+
+
+
+## Installation
+
+Clone repository and install dependencies
+
 ```
+git clone https://github.com/kenchi-san/snowTricks.git
+cd snowTricks
 composer install
-composer require symfony/twig-pack
-composer require symfony/filesystem
-composer require symfony/string
-composer require symfony/orm-pack
-composer require --dev symfony/maker-bundle
-composer require doctrine/annotations
-composer require symfony/apache-pack
 ```
 
-##important!!!!
-Don't forget to make it if you have any problem:
+Create a copy of .env file to .env.local with your own settings
+
+
+Initialize database
+
 ```
-php bin/console cacheclear
+php bin/console doctrine:database:create
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+
 ```
 
-##test
-###install
+## Important
+Don't forget to clean cache if you have any problem:
 ```
-composer require --dev dama/doctrine-test-bundle
+php bin/console cache:clear
 ```
-loading tests:
+
+## Running tests
+Load fixtures before launch tests.
+
 ```
-symfony php bin/phpunit --testdox
+php bin/phpunit --testdox
 ```
-##fixtures
-###install
-```
-composer require --dev orm-fixtures
-```
-### load Fixtures
+
+## Load Fixtures
+
 ```
 php bin/console doctrine:fixtures:load
 or
 composer reset
 ```
-with "composer reset" you need to setup symfony commands"
-<br>
-ex: symfony make ....
-<br>
-if you haven't this, juste change in the file composer.json "symfony" by "php bin/console" and that's will work
+with "composer reset" you need to install "[symfony binary](https://symfony.com/doc/current/best_practices.html#use-the-symfony-binary-to-create-symfony-applications)"
