@@ -12,6 +12,7 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\CssSelector\Exception\ExpressionErrorException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,6 +41,7 @@ class FigureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $files = $form->get('files')->getData();
+
             foreach ($files as $file) {
                 $image = new Image();
                 $image->setName($fileUploader->upload($file));
@@ -47,7 +49,10 @@ class FigureController extends AbstractController
             }
             $figure->getUpdatedAt(new \ DateTime());
             $manager->persist($figure);
-
+            if (empty($file)) {
+                $this->addFlash('warning', 'Une image est demandé');
+                return $this->redirectToRoute('app_add_figure');
+            }
             $manager->flush();
             $this->addFlash('success', 'la figure à bien été ajouté');
 

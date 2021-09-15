@@ -33,7 +33,7 @@ class FigureType extends AbstractType
                 [
                     'multiple' => true,
                     'mapped' => false,
-                    'required' => false,
+                    'required' => true,
                     'by_reference' => false,
                     'label' => 'ajouter une ou des images'
                 ])
