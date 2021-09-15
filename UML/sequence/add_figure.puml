@@ -5,20 +5,19 @@ title Sequence : Add figure
 actor Members as U
 participant Controller as C
 participant Doctrine as D
-participant repository as REPO
 participant SGBD as BDD
 ref over U,C,D,BDD : Connection
 
 U->C:  new figure
-C->D:Request
-activate D
-D->BDD: insertion in the bdd
-destroy BDD
-deactivate D
-C->REPO: request
-activate REPO
-REPO-->C: reponse
-deactivate REPO
-C-->U:affichage de la nouvelle figure
+C->C: check validity
+alt valid data
+    C->D: flush
+    activate D
+    D->BDD: insertion in the bdd
+    deactivate D
+    C-->U: redirect to show figure
+else invalid
+  C-->U: display form with errors
+end
 
 @enduml
