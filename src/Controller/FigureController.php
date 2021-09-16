@@ -118,7 +118,7 @@ class FigureController extends AbstractController
         $manager->remove($figure);
         $manager->flush();
         $fileUploader->remove($figure->getImages()->getValues());
-        $this->addFlash('success', 'la figure à bien été supprimé');
+        $this->addFlash('success', 'la figure a bien été supprimée');
         return $this->redirectToRoute("app_homePage");
     }
 
@@ -150,7 +150,7 @@ class FigureController extends AbstractController
             $manager->persist($figure);
 
             $manager->flush();
-            $this->addFlash('success', 'la figure à bien été édité');
+            $this->addFlash('success', 'la figure à bien été éditée');
             return $this->redirectToRoute("app_show_figure", ['id' => $figure->getId(), 'slug' => $figure->getSlug()]);
         }
         return $this->render('figure/editFigure.html.twig', ['form' => $form->createView(), 'figure' => $figure]);

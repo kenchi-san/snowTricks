@@ -15,7 +15,7 @@
                         <legend>Connexion</legend>
                         {{ form_row(form.userName, {label: 'nom d\'utilisateur'}) }}
                         {{ form_row(form.password, {label: 'mot de passe'}) }}
-                        {{ form_row(form._remember_me, {label: 'ce souvenir de moi'}) }}
+                        {{ form_row(form._remember_me, {label: 'se souvenir de moi'}) }}
                         <input type="submit" value="Valider ">
                         <br>
                         <a class="underlineHover" href="{{ path('app_reset_password') }}">Mot de passe oublié ?</a>
@@ -28,6 +28,5 @@
     </div>
     {% block javascripts %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-{#        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>#}
     {% endblock %}
 {% endblock %}
