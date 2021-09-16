@@ -1,0 +1,23 @@
+@startuml
+title Sequence : New User
+actor User as U
+participant Controller as C
+participant Doctrine as D
+participant repository as REPO
+participant BDD
+
+    U->C : register(name,firstname,username,mail,password)
+    C->REPO : verifyExistence(username or mail)
+alt username or mail not exist
+
+    C->C: password 1 and 2 ok
+    C->D: flux
+activate D
+    D->BDD: Data user register to the bdd
+deactivate D
+
+else : username and mail not free
+    C-->U: Error message
+end
+
+@enduml

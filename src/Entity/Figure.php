@@ -32,7 +32,6 @@ class Figure
      * @ORM\Column(type="text")
      */
     private $content;
-//TODO image obligatoire
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="figure", orphanRemoval=true,cascade={"persist"})
      *

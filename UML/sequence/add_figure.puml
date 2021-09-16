@@ -1,0 +1,23 @@
+@startuml
+
+title Sequence : Add figure
+
+actor Members as U
+participant Controller as C
+participant Doctrine as D
+participant SGBD as BDD
+ref over U,C,D,BDD : Connection
+
+U->C:  new figure
+C->C: check validity
+alt valid data
+    C->D: flush
+    activate D
+    D->BDD: insertion in the bdd
+    deactivate D
+    C-->U: redirect to show figure
+else invalid
+  C-->U: display form with errors
+end
+
+@enduml

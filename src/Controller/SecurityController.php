@@ -110,7 +110,7 @@ class SecurityController extends AbstractController
             $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')->getData()));
             $user->setToken(null);
             $entityManager->flush();
-            $this->addFlash('success', 'le mot de passe a bien été modifier ');
+            $this->addFlash('success', 'le mot de passe a bien été modifié ');
             return $this->redirectToRoute('app_homePage');
 
         }

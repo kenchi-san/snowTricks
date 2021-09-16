@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Figure;
 use App\Entity\Image;
 use App\Form\ImageType;
 use App\Service\FileUploader;
@@ -32,7 +33,7 @@ class ImageController extends AbstractController
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $fileUploader->remove(['image'=>$image->getName()]);
+            $fileUploader->remove(['image' => $image->getName()]);
 
             $file = $form->get('file')->getData();
             $image->setName($fileUploader->upload($file));
@@ -53,15 +54,20 @@ class ImageController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function deleted(Image $image,FileUploader $fileUploader, EntityManagerInterface $manager):Response
+    public function deleted(Image $image, FileUploader $fileUploader, EntityManagerInterface $manager): Response
     {
         if (!$this->getUser()) {
             $this->addFlash('danger', 'Veuillez vous identifier pour supprimer l\'image');
             return $this->redirectToRoute("app_login");
         }
+
+if (count($manager->getRepository(Image::class)->findBy(['figure'=>$image->getFigure()])) <= 1) {
+    $this->addFlash('warning', "Impossible de supprimer l'image");
+    return $this->redirectToRoute('app_edit_figure', ['id' => $image->getFigure()->getId()]);
+}
         $manager->remove($image);
         $manager->flush();
-        $fileUploader->remove(['image'=>$image->getName()]);
+        $fileUploader->remove(['image' => $image->getName()]);
         $this->addFlash('success', 'l\'image à bien été supprimé');
         return $this->redirectToRoute("app_homePage");
     }

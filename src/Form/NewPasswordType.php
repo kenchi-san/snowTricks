@@ -19,7 +19,7 @@ class NewPasswordType extends AbstractType
             'invalid_message' => 'mot de passe non identique',
             'options' => ['attr' => ['class' => 'password-field']],
             'required' => true,
-            'first_options'  => ['label' => 'Votre de mot de passe'],
+            'first_options'  => ['label' => 'Mot de passe'],
             'second_options' => ['label' => 'Confirmer votre mot de passe']])
         ;
     }

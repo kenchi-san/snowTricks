@@ -1,0 +1,50 @@
+@startuml
+title Séquence : Mot de passe oublié
+
+actor Members as U
+participant Controller as C
+participant Doctrine as D
+participant repository as REPO
+participant mailer as swif
+
+== Send request ==
+
+U->C: forgetPassword(Mail)
+C->REPO:Find user
+activate REPO
+REPO-->C: user or null
+deactivate REPO
+
+alt is user exist
+    C-->swif: Request send mail
+activate swif
+    swif-->U:tokenSend
+    deactivate swif
+
+    else userNotFound
+
+    C-->U: mail unavailable
+    deactivate C
+end
+
+== Update Password ==
+U->C: click on mail link
+C->C: retrieve user from token link
+alt token valid
+    C->U: display change password form
+    U->C: submit new password
+activate C
+    alt new password valid
+        C->D: flush
+deactivate C
+        C-->U: redirect to login page
+    else invalid password
+        C->U: display change password form
+    end
+else token unavailable
+    C->U: pageNotFound
+end
+
+
+
+@enduml
