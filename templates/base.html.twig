@@ -55,15 +55,23 @@
     {% block header %}
         <header class="masthead" style="background-image:url({{ asset('img/firstPicture.jpg') }});">
             <div class="container-fluid">
-
-                <div class="intro-text">
-                    <div class="intro-heading text-uppercase">
-
-                        <div class="site-heading">
-                            {% block headerText %} <h1> Super site de snow</h1>{% endblock %}
-                        </div>
-                    </div>
+<div class="container">
+    <div class="intro-text">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
                 </div>
+            {% endfor %}
+        {% endfor %}
+        <div class="intro-heading text-uppercase">
+
+            <div class="site-heading">
+                {% block headerText %} <h1> Super site de snow</h1>{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
 
                 {% block bottomHeader %}
                 {% endblock %}
@@ -71,14 +79,6 @@
         </header>
     {% endblock %}
 {% endblock nav %}
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="alert alert-{{ label }}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endfor %}
-
 
 {% block body %}
 
