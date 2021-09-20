@@ -10,7 +10,11 @@ div#image_top_show {
     background-position: center;
     position: relative;
 }
-
+@media screen and (max-width: 691px){
+    section>.container{
+        padding-top: 9rem;
+    }
+}
 #image_top_show > .row {
     position: absolute;
     top: 5px;

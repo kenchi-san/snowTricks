@@ -15,19 +15,22 @@
 
             <div id="image_top_show" class="row mb-2 img-thumbnail"
                  style="background-image:url('{{ asset('uploads/figures/') }}{{ figure.images.first.name }}')">
-                <div class="row offset-sm-10 offset-md-10 offset-lg-11">
-                    {# TODO fini edition et supprission #}
+                <div class="row offset-sm-9 offset-md-9 offset-lg-10">
+
 
                     {% if app.user %}
-                        <a href="{{ path('app_edit_image', {'id': figure.images[0].id}) }}#edit">
-                            <button type="button" class="fas fa-pencil-alt ">
-                            </button>
+                        <a href="{{ path('app_edit_image', {'id': figure.images[0].id}) }}#edit"
+                           class="btn btn-secondary btn-sm">
+                            <i class="fas fa-pencil-alt "></i>
                         </a>
 
-                        <button type="button" class="fas fa-trash js-button-delete-trick"
-                                data-href="{{ path('app_image_deleted', {'id': figure.images[0].id}) }}">
-                        </button>
+                        <a class="btn btn-secondary btn-sm"
+                           onclick="return confirm('Voulez-vous supprimer ce media?')"
+                           href="{{ path('app_image_deleted', {'id': figure.images[0].id}) }}">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     {% endif %}
+
                 </div>
 
                 <h1> {{ form_row(form.name) }} </h1>
@@ -68,14 +71,16 @@
                         </iframe>
                         <div class="text-right ">
                             {% if app.user %}
-                                <a href="{{ path('app_edit_video', {'id': video.id}) }}#edit">
-                                    <button type="button" class="fas fa-pencil-alt ">
-                                    </button>
+                                <a href="{{ path('app_edit_video', {'id': video.id}) }}#edit"
+                                   class="btn btn-secondary btn-sm">
+                                    <i class="fas fa-pencil-alt "></i>
                                 </a>
 
-                                <button type="button" class="fas fa-trash js-button-delete-trick"
-                                        data-href="{{ path('app_deleted_figure', {'id': figure.id}) }}">
-                                </button>
+                                <a class="btn btn-secondary btn-sm"
+                                   onclick="return confirm('Voulez-vous supprimer ce media?')"
+                                   href="{{ path('app_deleted_video', {'id': video.id}) }}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
                             {% endif %}
                         </div>
                     </div>
@@ -114,7 +119,7 @@
             </div>
             {% if figure.updatedAt == null %}
                 <div class="shadow p-3 mb-5 bg-white rounded">
-                    non modifier
+                    non modifié
                 </div>
             {% else %}
                 <div class="shadow p-3 mb-5 bg-white rounded">
