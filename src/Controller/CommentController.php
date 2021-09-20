@@ -25,8 +25,9 @@ class CommentController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @IsGranted("COMMENT_EDIT", subject="comment")
      */
-    public function edit(Figure $figure,Comment $comment, Request $request, EntityManagerInterface $manager): Response
+    public function edit( Comment $comment, Request $request, EntityManagerInterface $manager): Response
     {
+        $figure = $manager->getRepository(Figure::class)->find($comment->getFigure()->getId());
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -45,8 +46,10 @@ class CommentController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @IsGranted("COMMENT_DELETE", subject="comment")
      */
-    public function deleted(Figure $figure, Comment $comment, EntityManagerInterface $manager): Response
+    public function deleted( Comment $comment, EntityManagerInterface $manager): Response
     {
+        $figure = $manager->getRepository(Figure::class)->find($comment->getFigure()->getId());
+
         $manager->remove($comment);
         $manager->flush();
         $this->addFlash('success', 'commentaire supprimé');
