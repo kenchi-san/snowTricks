@@ -2,10 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Category;
-use App\Entity\Figure;
-use App\Entity\Image;
-use App\Entity\Video;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -81,46 +77,23 @@ class FigureControllerTest extends WebTestCase
 
     }
 
+    public function testaddFigureWhenConnected()
+    {
+        $client = self::createClient();
+        $userRepository = $client->getContainer()->get(UserRepository::class);
+        $client->loginUser($userRepository->findOneBy(['userName' => 'user0']));
+        $crawler = $client->request('GET', '/add/figure');
+        $buttonCrawlerNode = $crawler->selectButton('Valider');
+        $form = $buttonCrawlerNode->form();
+        $form['figure[name]'] = "figure numéro 1";
+        $form['figure[content]'] = "contenu balbablablalbalbalb";
+        $form['figure[category]']->select("1");
+        $form['figure[files][0]']->upload("picture1.png");
+        $client->submit($form);
 
-//    public function testaddFigureWhenConnected()
-//    {
-//        $client = static::createClient();
-//        $crawler = $client->request('GET', '/add/figure');
-//        $buttonCrawlerNode = $crawler->selectButton('valider');
-//        $form = $buttonCrawlerNode->form();
-//        $form['figure[name]'] = "figure numéro 1";
-//        $form['figure[content]'] = "contenu balbablablalbalbalb";
-//        $form['figure[category]']->select("rotation");
-//        $form['figure[files][0]']->upload("picture1.png");
-//        $form['figure[files][1]']->upload("picture2.png");
-//        $form['figure[videos][1][link]']="https://www.youtube.com/embed/Gpbzcjwek_c";
-//        $form['figure[videos][2][link]']="https://www.youtube.com/embed/Gpbzcjwek_c";
-//        $client->submit($form);
-//
-//       $this->assertResponseIsSuccessful( $message = 'la figure à bien été ajouté');
+        $client->followRedirect();
+        $this->assertResponseIsSuccessful( $message = 'la figure à bien été ajouté');
 
-//        $crawler = $client->submitForm('valider');
-//        $figure = new Figure();
-//        $category = new Category();
-//        $link = new Video();
-//        $figure->setContent($figureContent);
-//        $figure->setCreatedAt(new \DateTime());
-//        $figure->setName($figureName);
-//        $figure->setCategory($category);
-//        $figure->addVideo($link);
-//
-//        $category->setName($categoryName);
-//        $category->addFigure($figure);
-//
-//        $link->setFigure($figure);
-//        $link->setLink($video);
-//    }
-
-
-//    public function dataFigureProvider()
-//    {
-//        yield "figure" => ["figure numéro 1", "contenu balbablablalbalbalb", "rotation","picture1.png","picture2.png", "https://www.youtube.com/embed/Gpbzcjwek_c", "https://www.youtube.com/embed/Gpbzcjwek_c"];
-//
-//    }
+    }
 }
 

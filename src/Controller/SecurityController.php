@@ -74,7 +74,7 @@ class SecurityController extends AbstractController
                 ->from(new Address('charon.hugo@yahoo.fr', 'snowtrick'))
                 ->to($user->getEmail())
                 ->subject('Veuillez confirmer votre mail')
-                ->htmlTemplate('Security/reset_password_email.html.twig')
+                ->htmlTemplate('security/reset_password_email.html.twig')
                 ->context(['token' => $user->getToken()]);
             $mailer->send($email);
             $this->addFlash(
